@@ -4,21 +4,15 @@ using UnityEngine;
 
 public class Plain
 {
-
-
-    private int _length = 12;
-    private int _width = 6;
-
     public PlainTile[,] Tiles;
 
-
-    public Plain()
+    public Plain(int length , int width)
     {
-        Tiles = new PlainTile[_length, _width];
+        Tiles = new PlainTile[length, width];
 
-        for (int i = 0; i < _length; i++)
+        for (int i = 0; i < length; i++)
         {
-            for (int j = 0; j < _width; j++)
+            for (int j = 0; j < width; j++)
             {
                 Tiles[i,j] = new PlainTile();
             }

@@ -4,31 +4,25 @@ using System.Collections.Generic;
 using System.Runtime.Remoting.Messaging;
 
 public class PlainTile
-{
-
+{ 
     public TileType TileType { get; private set; }
     public ResourceType ResourceType { get; private set; }
 
-    public bool TowerActive { get; private set; }
-    
+    public bool TowerActive { get; private set; } 
 
     public PlainTile()
     {
         TowerActive = false;
-        TileType = RandomTileType();
-        ResourceType = RandomResourceType();
     }
 
-    private TileType RandomTileType()
+    public void SetRecourceType(ResourceType resourceType)
     {
-        var v = Enum.GetValues(typeof(TileType));
-        return (TileType)v.GetValue(new Random().Next(v.Length));
+        ResourceType = resourceType;
     }
 
-    private ResourceType RandomResourceType()
+    public void SetTileType(TileType tileType)
     {
-        var v = Enum.GetValues(typeof(ResourceType));
-        return (ResourceType)v.GetValue(new Random().Next(v.Length));
+        TileType = tileType;
     }
 
     public void BuildTower()
