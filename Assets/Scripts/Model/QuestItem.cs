@@ -10,4 +10,7 @@
         RequiredGreenResources = requiredGreen;
         RequiredBlueResources = requiredBlue;
     }
+
+    public QuestItem(QuestDraft questDraft) : this(questDraft.Red, questDraft.Green, questDraft.Blue)
+    { }
 }
