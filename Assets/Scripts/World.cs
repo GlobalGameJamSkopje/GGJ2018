@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class World
 {
-    private int _lenght = 8;
+    private int _lenght = 9;
     private int _widht = 4;
 
     public Plain PlayerOne { get; private set; }
