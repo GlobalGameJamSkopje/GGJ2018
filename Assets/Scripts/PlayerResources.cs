@@ -1,4 +1,6 @@
-﻿public class PlayerResources : IPlayerResources
+﻿using System;
+
+public class PlayerResources : IPlayerResources
 {
     public int NumberOfRedResources { get; set; }
     public int NumberOfGreenResources { get; set; }
@@ -20,7 +22,25 @@
                 NumberOfBlueResources += tileValue;
                 break;
             default:
+                throw new ArgumentOutOfRangeException("resourceType", resourceType, null);
+        }
+    }
+
+    public void RemoveResource(ResourceType resourceType)
+    {
+        switch (resourceType)
+        {
+            case ResourceType.Red:
+                NumberOfRedResources--;
                 break;
+            case ResourceType.Green:
+                NumberOfGreenResources--;
+                break;
+            case ResourceType.Blue:
+                NumberOfBlueResources--;
+                break;
+            default:
+                throw new ArgumentOutOfRangeException("resourceType", resourceType, null);
         }
     }
 
