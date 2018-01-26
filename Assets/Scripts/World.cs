@@ -25,8 +25,6 @@ public class World
         MaxResourceTypes();
         GenerateResourceMap();
         GenerateTileMap();
-        
-
     }
 
     private void GenerateTileMap()
