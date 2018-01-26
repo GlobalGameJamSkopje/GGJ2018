@@ -1,22 +1,32 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class World
 {
-    private int _lenght = 9;
-    private int _widht = 4;
+    private int _lenght = 6;
+    private int _widht = 5;
 
     public Plain PlayerOne { get; private set; }
     public Plain PlayerTwo { get; private set; }
+
+    public int Red { get; private set; }
+    public int Green { get; private set; }
+    public int Blue { get; private set; }
+
+    private List<ResourceType> resourceTypesList;
 
     public World()
     {
         PlayerOne = new Plain(_lenght, _widht);
         PlayerTwo = new Plain(_lenght, _widht);
 
+        MaxResourceTypes();
         GenerateResourceMap();
         GenerateTileMap();
+        
+
     }
 
     private void GenerateTileMap()
@@ -45,6 +55,7 @@ public class World
 
     private void GenerateResourceMap()
     {
+
         for (int i = 0; i < _lenght; i++)
         {
             for (int j = 0; j < _widht; j++)
@@ -57,10 +68,37 @@ public class World
         }
     }
 
+    private void MaxResourceTypes()
+    {
+        resourceTypesList = new List<ResourceType>();
+
+        var maxResources = _lenght * _widht;
+        Red = UnityEngine.Random.Range(8, 14);
+        Green = UnityEngine.Random.Range(8, maxResources - Red - 8);
+        Blue = maxResources - Red - Green;
+
+        for (int i = 0; i < Red; i++)
+        {
+            resourceTypesList.Add(ResourceType.Red);
+        }
+
+        for (int i = 0; i < Green; i++)
+        {
+            resourceTypesList.Add(ResourceType.Green);
+        }
+
+        for (int i = 0; i < Blue; i++)
+        {
+            resourceTypesList.Add(ResourceType.Blue);
+        }
+    }
+
     private ResourceType RandomResourceType()
     {
-        var v = Enum.GetValues(typeof(ResourceType));
-        return (ResourceType)v.GetValue(new Random().Next(v.Length));
+        var index = UnityEngine.Random.Range(0, resourceTypesList.Count);
+        var tempResourceType = resourceTypesList[index];
+        resourceTypesList.RemoveAt(index);
+        return tempResourceType;
     }
 
     private TileType RandomTileType()
