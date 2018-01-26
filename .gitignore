@@ -1,3 +1,14 @@
+
+# Created by https://www.gitignore.io/api/unity
+
+[merge]
+tool = unityyamlmerge
+
+[mergetool "unityyamlmerge"]
+trustExitCode = false
+cmd = 'C:\Program Files\Unity\Editor\Data\Tools\UnityYAMLMerge.exe' merge -p "$BASE" "$REMOTE" "$LOCAL" "$MERGED"
+
+### Unity ###
 /[Ll]ibrary/
 /[Tt]emp/
 /[Oo]bj/
@@ -29,6 +40,42 @@ ExportedObj/
 # Unity3D Generated File On Crash Reports
 sysinfo.txt
 
+.gitignore
+
 # Builds
 *.apk
 *.unitypackage
+
+
+
+*.unity binary
+*.prefab binary
+*.asset binary
+
+
+*.unity binary
+*.prefab binary
+*.asset binary
+
+# Source control temp files
+*.orig
+# OS generated
+.DS_Store
+
+
+# Include only the .meta files in specific folders
+*.meta
+!Assets/[Ee]ditor/**/*.meta
+!Assets/Editor Default Resources/**/*.meta
+!Assets/[Gg]izmos/**/*.meta
+!Assets/[Pp]refabs/**/*.meta
+!Assets/[Rr]esources/**/*.meta
+!Assets/[Ss]cenes/**/*.meta
+!Assets/[Ss]cripts/**/*.meta
+!Assets/[Mm]odels/**/*.meta
+!Assets/[Mm]aterials/**/*.meta
+!Assets/[Aa]nimators/**/*.meta
+!Assets/Standard Assets/**/*.meta
+!Assets/StreamingAssets/**/*.meta
+
+# End of https://www.gitignore.io/api/unity
