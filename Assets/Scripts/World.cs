@@ -5,45 +5,47 @@ using System.Linq;
 
 public class World
 {
-    private int _lenght = 6;
-    private int _widht = 5;
+    private const int Lenght = 6;
+    private const int Widht = 5;
+    private const int MaxResources = Lenght * Widht;
 
     public Plain PlayerOne { get; private set; }
     public Plain PlayerTwo { get; private set; }
 
-    public int Red { get; private set; }
-    public int Green { get; private set; }
-    public int Blue { get; private set; }
-
-    private List<ResourceType> resourceTypesList;
+    private readonly IQuestCreator _questCreator;
 
     public World()
     {
-        PlayerOne = new Plain(_lenght, _widht);
-        PlayerTwo = new Plain(_lenght, _widht);
+        _questCreator = new QuestCreator();
 
-        MaxResourceTypes();
-        GenerateResourceMap();
+        PlayerOne = new Plain(Lenght, Widht);
+        PlayerTwo = new Plain(Lenght, Widht);
+
+        var resourceTypes = GenerateResourceTypes();
+
+        _questCreator.CreateQuests(
+            resourceTypes.Count(x => x == ResourceType.Red),
+            resourceTypes.Count(x => x == ResourceType.Green),
+            resourceTypes.Count(x => x == ResourceType.Blue));
+
+        GenerateResourceMap(resourceTypes);
         GenerateTileMap();
     }
 
     private void GenerateTileMap()
     {
-        for (int i = 0; i < _lenght; i++)
+        for (var i = 0; i < Lenght; i++)
         {
-            for (int j = 0; j < _widht; j++)
+            for (var j = 0; j < Widht; j++)
             {
                 var tileTypeP1 = RandomTileType();
                 var tileTypeP2 = RandomTileType();
 
                 if (tileTypeP1 == TileType.Mine)
-                {
                     tileTypeP2 = TileType.Mountain;
-                }
+
                 if (tileTypeP2 == TileType.Mine)
-                {
                     tileTypeP1 = TileType.Mountain;
-                }
 
                 PlayerOne.Tiles[i, j].SetTileType(tileTypeP1);
                 PlayerTwo.Tiles[i, j].SetTileType(tileTypeP2);
@@ -51,14 +53,13 @@ public class World
         }
     }
 
-    private void GenerateResourceMap()
+    private void GenerateResourceMap(List<ResourceType> resourceTypes)
     {
-
-        for (int i = 0; i < _lenght; i++)
+        for (var i = 0; i < Lenght; i++)
         {
-            for (int j = 0; j < _widht; j++)
+            for (var j = 0; j < Widht; j++)
             {
-                var resourceType = RandomResourceType();
+                var resourceType = GetAndRemoveRandomItem(resourceTypes);
 
                 PlayerOne.Tiles[i, j].SetRecourceType(resourceType);
                 PlayerTwo.Tiles[i, j].SetRecourceType(resourceType);
@@ -66,42 +67,37 @@ public class World
         }
     }
 
-    private void MaxResourceTypes()
+    private List<ResourceType> GenerateResourceTypes()
     {
-        resourceTypesList = new List<ResourceType>();
+        var result = new List<ResourceType>();
 
-        var maxResources = _lenght * _widht;
-        Red = UnityEngine.Random.Range(8, 14);
-        Green = UnityEngine.Random.Range(8, maxResources - Red - 8);
-        Blue = maxResources - Red - Green;
+        var red = UnityEngine.Random.Range(8, 14);
+        var green = UnityEngine.Random.Range(8, MaxResources - red - 8);
+        var blue = MaxResources - red - green;
 
-        for (int i = 0; i < Red; i++)
-        {
-            resourceTypesList.Add(ResourceType.Red);
-        }
+        for (var i = 0; i < red; i++)
+            result.Add(ResourceType.Red);
 
-        for (int i = 0; i < Green; i++)
-        {
-            resourceTypesList.Add(ResourceType.Green);
-        }
+        for (var i = 0; i < green; i++)
+            result.Add(ResourceType.Green);
 
-        for (int i = 0; i < Blue; i++)
-        {
-            resourceTypesList.Add(ResourceType.Blue);
-        }
+        for (var i = 0; i < blue; i++)
+            result.Add(ResourceType.Blue);
+
+        return result;
     }
 
-    private ResourceType RandomResourceType()
+    private ResourceType GetAndRemoveRandomItem(List<ResourceType> resourceTypes)
     {
-        var index = UnityEngine.Random.Range(0, resourceTypesList.Count);
-        var tempResourceType = resourceTypesList[index];
-        resourceTypesList.RemoveAt(index);
-        return tempResourceType;
+        var index = UnityEngine.Random.Range(0, resourceTypes.Count);
+        var result = resourceTypes[index];
+        resourceTypes.RemoveAt(index);
+        return result;
     }
 
     private TileType RandomTileType()
     {
-        var v = Enum.GetValues(typeof(TileType));
-        return (TileType)v.GetValue(new Random().Next(v.Length));
+        var values = Enum.GetValues(typeof(TileType));
+        return (TileType)values.GetValue(new Random().Next(values.Length));
     }
 }
