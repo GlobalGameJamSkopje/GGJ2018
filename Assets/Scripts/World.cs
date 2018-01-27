@@ -12,6 +12,8 @@ public class World
     public List<QuestItem> Quests { get; private set; }
     public Plain P1Plain { get; private set; }
     public Plain P2Plain { get; private set; }
+    public PlayerSideQuest P1SideQuest { get; private set; }
+    public PlayerSideQuest P2SideQuest { get; private set; }
 
     public PlayerResources P1Resources { get; private set; }
     public PlayerResources P2Resources { get; private set; }
