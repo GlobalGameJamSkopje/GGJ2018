@@ -16,6 +16,9 @@ public class World
     public PlayerSideQuest P1SideQuest { get; private set; }
     public PlayerSideQuest P2SideQuest { get; private set; }
 
+    public PlayerAction P1Action { get; private set; }
+    public PlayerAction P2Action { get; private set; }
+
     public PlayerResources P1Resources { get; private set; }
     public PlayerResources P2Resources { get; private set; }
 
@@ -34,6 +37,9 @@ public class World
 
         P1SideQuest = new PlayerSideQuest();
         P2SideQuest = new PlayerSideQuest();
+
+        P1Action = new PlayerAction(2, 0, 0, 0);
+        P2Action = new PlayerAction(2, 0, 0, 0);
 
         var resourceTypes = GenerateResourceTypes();
 
