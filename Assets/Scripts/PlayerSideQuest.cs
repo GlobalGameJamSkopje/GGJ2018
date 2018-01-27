@@ -7,21 +7,21 @@ public class PlayerSideQuest : IPlayerSideQuest
 {
     public static readonly List<SideQuestItem> AllSideQuests = new List<SideQuestItem>
     {
-        new SideQuestItem(6, 0, 0, QuestDifficulty.Easy),
-        new SideQuestItem(0, 6, 0, QuestDifficulty.Easy),
-        new SideQuestItem(0, 0, 6, QuestDifficulty.Easy),
+        new SideQuestItem(6, 0, 0, QuestDifficulty.Easy, Reward.Move),
+        new SideQuestItem(0, 6, 0, QuestDifficulty.Easy, Reward.Dig),
+        new SideQuestItem(0, 0, 6, QuestDifficulty.Easy, Reward.Build),
 
-        new SideQuestItem(10, 0, 0, QuestDifficulty.Medium),
-        new SideQuestItem(0, 10, 0, QuestDifficulty.Medium),
-        new SideQuestItem(0, 0, 10, QuestDifficulty.Medium),
+        new SideQuestItem(10, 0, 0, QuestDifficulty.Medium, Reward.MoveX2),
+        new SideQuestItem(0, 10, 0, QuestDifficulty.Medium, Reward.DigX2),
+        new SideQuestItem(0, 0, 10, QuestDifficulty.Medium, Reward.BuildX2),
 
-        new SideQuestItem(10, 0, 5, QuestDifficulty.Hard),
-        new SideQuestItem(10, 5, 0, QuestDifficulty.Hard),
-        new SideQuestItem(0, 10, 5, QuestDifficulty.Hard),
-        new SideQuestItem(5, 10, 0, QuestDifficulty.Hard),
-        new SideQuestItem(0, 5, 10, QuestDifficulty.Hard),
-        new SideQuestItem(5, 0, 10, QuestDifficulty.Hard),
-        new SideQuestItem(5, 5, 5, QuestDifficulty.Hard)
+        new SideQuestItem(10, 0, 5, QuestDifficulty.Hard, Reward.MoveX2 | Reward.Build),
+        new SideQuestItem(10, 5, 0, QuestDifficulty.Hard, Reward.MoveX2 | Reward.Dig),
+        new SideQuestItem(0, 10, 5, QuestDifficulty.Hard, Reward.DigX2 | Reward.Build),
+        new SideQuestItem(5, 10, 0, QuestDifficulty.Hard, Reward.Move | Reward.DigX2),
+        new SideQuestItem(0, 5, 10, QuestDifficulty.Hard, Reward.Dig | Reward.BuildX2),
+        new SideQuestItem(5, 0, 10, QuestDifficulty.Hard, Reward.Move | Reward.BuildX2),
+        new SideQuestItem(5, 5, 5, QuestDifficulty.Hard, Reward.Move | Reward.Dig | Reward.Build)
     };
 
     public List<SideQuestItem> SideQuests { get; private set; }
