@@ -5,25 +5,27 @@ using System.Linq;
 
 public class World
 {
-    private const int Lenght = 6;
-    private const int Widht = 5;
-    private const int MaxResources = Lenght * Widht;
+    public const int Length = 6;
+    public const int Width = 5;
+    private const int MaxResources = Length * Width;
 
+    public List<QuestItem> Quests { get; private set; }
     public Plain PlayerOne { get; private set; }
     public Plain PlayerTwo { get; private set; }
 
     private readonly IQuestCreator _questCreator;
+    private readonly Random _random = new Random();
 
     public World()
     {
         _questCreator = new QuestCreator();
 
-        PlayerOne = new Plain(Lenght, Widht);
-        PlayerTwo = new Plain(Lenght, Widht);
+        PlayerOne = new Plain(Length, Width);
+        PlayerTwo = new Plain(Length, Width);
 
         var resourceTypes = GenerateResourceTypes();
 
-        _questCreator.CreateQuests(
+        Quests = _questCreator.CreateQuests(
             resourceTypes.Count(x => x == ResourceType.Red),
             resourceTypes.Count(x => x == ResourceType.Green),
             resourceTypes.Count(x => x == ResourceType.Blue));
@@ -34,9 +36,9 @@ public class World
 
     private void GenerateTileMap()
     {
-        for (var i = 0; i < Lenght; i++)
+        for (var i = 0; i < Length; i++)
         {
-            for (var j = 0; j < Widht; j++)
+            for (var j = 0; j < Width; j++)
             {
                 var tileTypeP1 = RandomTileType();
                 var tileTypeP2 = RandomTileType();
@@ -55,9 +57,9 @@ public class World
 
     private void GenerateResourceMap(List<ResourceType> resourceTypes)
     {
-        for (var i = 0; i < Lenght; i++)
+        for (var i = 0; i < Length; i++)
         {
-            for (var j = 0; j < Widht; j++)
+            for (var j = 0; j < Width; j++)
             {
                 var resourceType = GetAndRemoveRandomItem(resourceTypes);
 
@@ -98,6 +100,7 @@ public class World
     private TileType RandomTileType()
     {
         var values = Enum.GetValues(typeof(TileType));
-        return (TileType)values.GetValue(new Random().Next(values.Length));
+        
+        return (TileType)values.GetValue(_random.Next(values.Length));
     }
 }

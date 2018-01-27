@@ -22,6 +22,8 @@ public class QuestCreator : IQuestCreator
         {
             foreach (var item in questDrafts)
             {
+                if (!resources.Any()) break;
+
                 if (!ShouldEnter(resources.Peek(), item))
                     continue;
 
@@ -57,7 +59,7 @@ public class QuestCreator : IQuestCreator
 
     private bool ShouldEnter(ResourceType resourceType, QuestDraft questDraft)
     {
-        var result = GetRandomBetween(0, 1) == 1;
+        var result = GetRandomBetween(0, 10) >= 3;
 
         switch (resourceType)
         {
