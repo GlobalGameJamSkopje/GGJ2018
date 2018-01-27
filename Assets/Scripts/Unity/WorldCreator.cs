@@ -18,12 +18,12 @@ public class WorldCreator : MonoBehaviour
             for (int j = 0; j < World.Width; j++)
             {
                 GameObject tilePlain;
-                if (World.PlayerOne.Tiles[i, j].TileType == TileType.Mountain)
+                if (World.P1Plain.Tiles[i, j].TileType == TileType.Mountain)
                 {
                     tilePlain = Instantiate(Plain, new Vector3(i, 0, j), Quaternion.identity);
                     GameObject tileMountain = Instantiate(Mountain, new Vector3(i, 0, j), Quaternion.identity);
                 }
-                else if (World.PlayerOne.Tiles[i, j].TileType == TileType.Mine)
+                else if (World.P1Plain.Tiles[i, j].TileType == TileType.Mine)
                 {
                     tilePlain = Instantiate(Mine, new Vector3(i, 0, j), Quaternion.identity);
 
@@ -41,12 +41,12 @@ public class WorldCreator : MonoBehaviour
             for (int j = World.Width-1; j >= 0; j--)
             {
                 GameObject tilePlain;
-                if (World.PlayerTwo.Tiles[i, j].TileType == TileType.Mountain)
+                if (World.P2Plain.Tiles[i, j].TileType == TileType.Mountain)
                 {
                     tilePlain = Instantiate(Plain, new Vector3(i, 0, 12-j), Quaternion.identity);
                     GameObject tileMountain = Instantiate(Mountain, new Vector3(i, 0, 12 - j), Quaternion.identity);
                 }
-                else if (World.PlayerTwo.Tiles[i, j].TileType == TileType.Mine)
+                else if (World.P2Plain.Tiles[i, j].TileType == TileType.Mine)
                 {
                     tilePlain = Instantiate(Mine, new Vector3(i, 0, 12 - j), Quaternion.identity);
                 }
