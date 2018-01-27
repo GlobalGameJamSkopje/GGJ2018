@@ -53,10 +53,10 @@ public class ViewTile : MonoBehaviour
         mountainSpriteRenderer.gameObject.SetActive(false);
     }
 
-    public void SetResourceType(Sprite spriteAbove, Sprite spriteBelow)
+    public void SetResourceType(Sprite sprite)
     {
-        aboveCrystalSpriteRenderer.sprite = spriteAbove;
-        belowCrystalSpriteRenderer.sprite = spriteBelow;
+        aboveCrystalSpriteRenderer.sprite = sprite;
+        belowCrystalSpriteRenderer.sprite = sprite;
     }
 
     public void ActivateTower()

@@ -13,7 +13,7 @@ public class WorldCreator : MonoBehaviour
     public Sprite[] MountainSpritesP2;
     public Sprite[] MountainHolePlainSpritesP2;
     public Sprite[] HoleSpritesP2;
-    public Sprite redBelow, redAbove, greenBelow, greenAbove, blueBelow, blueAbove;
+    public Sprite red, green, blue;
     //public Sprite towerSprite;
 
     public ViewTile[] ViewTilesPlayerOne;
@@ -50,19 +50,15 @@ public class WorldCreator : MonoBehaviour
     {
         if (World.P1Plain.Tiles[i, j].ResourceType == ResourceType.Red)
         {
-            _viewTilesMultiArrayPlayerOne[i, j].SetResourceType(redAbove, redBelow);
+            _viewTilesMultiArrayPlayerOne[i, j].SetResourceType(red);
         }
         else if (World.P1Plain.Tiles[i, j].ResourceType == ResourceType.Green)
         {
-            //_viewTilesMultiArrayPlayerOne[i, j].SetResourceType(greenAbove, greenBelow);
-            _viewTilesMultiArrayPlayerOne[i, j].aboveCrystalSpriteRenderer.color = Color.green;
-            _viewTilesMultiArrayPlayerOne[i, j].belowCrystalSpriteRenderer.color = Color.green;
+            _viewTilesMultiArrayPlayerOne[i, j].SetResourceType(green);
         }
         else
         {
-            //_viewTilesMultiArrayPlayerOne[i, j].SetResourceType(blueAbove, blueBelow);
-            _viewTilesMultiArrayPlayerOne[i, j].aboveCrystalSpriteRenderer.color = Color.blue;
-            _viewTilesMultiArrayPlayerOne[i, j].belowCrystalSpriteRenderer.color = Color.blue;
+            _viewTilesMultiArrayPlayerOne[i, j].SetResourceType(blue);
         }
 
         _viewTilesMultiArrayPlayerOne[i, j]
@@ -87,19 +83,15 @@ public class WorldCreator : MonoBehaviour
     {
         if (World.P2Plain.Tiles[i, j].ResourceType == ResourceType.Red)
         {
-            _viewTilesMultiArrayPlayerTwo[i, j].SetResourceType(redAbove, redBelow);
+            _viewTilesMultiArrayPlayerTwo[i, j].SetResourceType(red);
         }
         else if (World.P2Plain.Tiles[i, j].ResourceType == ResourceType.Green)
         {
-            //_viewTilesMultiArrayPlayerTwo[i, j].SetResourceType(greenAbove, greenBelow);
-            _viewTilesMultiArrayPlayerTwo[i, j].aboveCrystalSpriteRenderer.color = Color.green;
-            _viewTilesMultiArrayPlayerTwo[i, j].belowCrystalSpriteRenderer.color = Color.green;
+            _viewTilesMultiArrayPlayerTwo[i, j].SetResourceType(green);
         }
         else
         {
-            //_viewTilesMultiArrayPlayerTwo[i, j].SetResourceType(blueAbove, blueBelow);
-            _viewTilesMultiArrayPlayerTwo[i, j].aboveCrystalSpriteRenderer.color = Color.blue;
-            _viewTilesMultiArrayPlayerTwo[i, j].belowCrystalSpriteRenderer.color = Color.blue;
+            _viewTilesMultiArrayPlayerTwo[i, j].SetResourceType(blue);
         }
 
         _viewTilesMultiArrayPlayerTwo[i, j]
