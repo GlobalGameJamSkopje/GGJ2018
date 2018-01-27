@@ -30,6 +30,7 @@ public class PlayerSideQuest : IPlayerSideQuest
 
     public PlayerSideQuest()
     {
+        SideQuests = new List<SideQuestItem>();
         SideQuests.Add(GetNewSideQuest());
         SideQuests.Add(GetNewSideQuest());
     }

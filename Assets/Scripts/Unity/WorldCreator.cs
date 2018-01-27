@@ -43,11 +43,11 @@ public class WorldCreator : MonoBehaviour
 
     private void GenerateMapP1(int i, int j)
     {
-        if (World.PlayerOne.Tiles[i, j].ResourceType == ResourceType.Red)
+        if (World.P1Plain.Tiles[i, j].ResourceType == ResourceType.Red)
         {
             _viewTilesMultiArrayPlayerOne[i, j].SetResourceType(redAbove, redBelow);
         }
-        else if (World.PlayerOne.Tiles[i, j].ResourceType == ResourceType.Green)
+        else if (World.P1Plain.Tiles[i, j].ResourceType == ResourceType.Green)
         {
             //_viewTilesMultiArrayPlayerOne[i, j].SetResourceType(greenAbove, greenBelow);
             _viewTilesMultiArrayPlayerOne[i, j].aboveCrystalSpriteRenderer.color = Color.green;
@@ -63,12 +63,12 @@ public class WorldCreator : MonoBehaviour
         _viewTilesMultiArrayPlayerOne[i, j]
             .ChangePlainSprite(PlainSprites[UnityEngine.Random.Range(0, PlainSprites.Length)]);
 
-        if (World.PlayerOne.Tiles[i, j].TileType == TileType.Mountain)
+        if (World.P1Plain.Tiles[i, j].TileType == TileType.Mountain)
         {
             _viewTilesMultiArrayPlayerOne[i, j]
                 .ChangeMountainSprite(MountainSprites[UnityEngine.Random.Range(0, MountainSprites.Length)]);
         }
-        else if (World.PlayerOne.Tiles[i, j].TileType == TileType.Mine)
+        else if (World.P1Plain.Tiles[i, j].TileType == TileType.Mine)
         {
             _viewTilesMultiArrayPlayerOne[i, j]
                 .ChangeHoleSprite(HoleSprites[UnityEngine.Random.Range(0, HoleSprites.Length)]);
@@ -76,11 +76,11 @@ public class WorldCreator : MonoBehaviour
     }
     private void GenerateMapP2(int i, int j)
     {
-        if (World.PlayerTwo.Tiles[i, j].ResourceType == ResourceType.Red)
+        if (World.P2Plain.Tiles[i, j].ResourceType == ResourceType.Red)
         {
             _viewTilesMultiArrayPlayerTwo[i, j].SetResourceType(redAbove, redBelow);
         }
-        else if (World.PlayerTwo.Tiles[i, j].ResourceType == ResourceType.Green)
+        else if (World.P2Plain.Tiles[i, j].ResourceType == ResourceType.Green)
         {
             //_viewTilesMultiArrayPlayerTwo[i, j].SetResourceType(greenAbove, greenBelow);
             _viewTilesMultiArrayPlayerTwo[i, j].aboveCrystalSpriteRenderer.color = Color.green;
@@ -96,12 +96,12 @@ public class WorldCreator : MonoBehaviour
         _viewTilesMultiArrayPlayerTwo[i, j]
             .ChangePlainSprite(PlainSprites[UnityEngine.Random.Range(0, PlainSprites.Length)]);
 
-        if (World.PlayerTwo.Tiles[i, j].TileType == TileType.Mountain)
+        if (World.P2Plain.Tiles[i, j].TileType == TileType.Mountain)
         {
             _viewTilesMultiArrayPlayerTwo[i, j]
                 .ChangeMountainSprite(MountainSprites[UnityEngine.Random.Range(0, MountainSprites.Length)]);
         }
-        else if (World.PlayerTwo.Tiles[i, j].TileType == TileType.Mine)
+        else if (World.P2Plain.Tiles[i, j].TileType == TileType.Mine)
         {
             _viewTilesMultiArrayPlayerTwo[i, j]
                 .ChangeHoleSprite(HoleSprites[UnityEngine.Random.Range(0, HoleSprites.Length)]);
