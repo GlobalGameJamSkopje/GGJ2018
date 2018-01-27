@@ -40,7 +40,7 @@ public class World
 
         P1Action = new PlayerAction(2, 0, 0, 0);
         P2Action = new PlayerAction(2, 0, 0, 0);
-
+        
         var resourceTypes = GenerateResourceTypes();
 
         Quests = _questCreator.CreateQuests(
