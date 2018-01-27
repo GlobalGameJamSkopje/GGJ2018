@@ -10,8 +10,14 @@ public class World
     private const int MaxResources = Length * Width;
 
     public List<QuestItem> Quests { get; private set; }
-    public Plain PlayerOne { get; private set; }
-    public Plain PlayerTwo { get; private set; }
+    public Plain P1Plain { get; private set; }
+    public Plain P2Plain { get; private set; }
+
+    public PlayerSideQuest P1SideQuest { get; private set; }
+    public PlayerSideQuest P2SideQuest { get; private set; }
+
+    public PlayerResources P1Resources { get; private set; }
+    public PlayerResources P2Resources { get; private set; }
 
     private readonly IQuestCreator _questCreator;
     private readonly Random _random = new Random();
@@ -20,8 +26,14 @@ public class World
     {
         _questCreator = new QuestCreator();
 
-        PlayerOne = new Plain(Length, Width);
-        PlayerTwo = new Plain(Length, Width);
+        P1Plain = new Plain(Length, Width);
+        P2Plain = new Plain(Length, Width);
+
+        P1Resources = new PlayerResources(0, 0, 0);
+        P2Resources = new PlayerResources(0, 0, 0);
+
+        P1SideQuest = new PlayerSideQuest();
+        P2SideQuest = new PlayerSideQuest();
 
         var resourceTypes = GenerateResourceTypes();
 
@@ -49,8 +61,8 @@ public class World
                 if (tileTypeP2 == TileType.Mine)
                     tileTypeP1 = TileType.Mountain;
 
-                PlayerOne.Tiles[i, j].SetTileType(tileTypeP1);
-                PlayerTwo.Tiles[i, j].SetTileType(tileTypeP2);
+                P1Plain.Tiles[i, j].SetTileType(tileTypeP1);
+                P2Plain.Tiles[i, j].SetTileType(tileTypeP2);
             }
         }
     }
@@ -63,8 +75,8 @@ public class World
             {
                 var resourceType = GetAndRemoveRandomItem(resourceTypes);
 
-                PlayerOne.Tiles[i, j].SetRecourceType(resourceType);
-                PlayerTwo.Tiles[i, j].SetRecourceType(resourceType);
+                P1Plain.Tiles[i, j].SetRecourceType(resourceType);
+                P2Plain.Tiles[i, j].SetRecourceType(resourceType);
             }
         }
     }
@@ -100,7 +112,7 @@ public class World
     private TileType RandomTileType()
     {
         var values = Enum.GetValues(typeof(TileType));
-        
+
         return (TileType)values.GetValue(_random.Next(values.Length));
     }
 }
