@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-public class PlayerSideQuest
+public class PlayerSideQuest : IPlayerSideQuest
 {
     public static readonly List<SideQuestItem> AllSideQuests = new List<SideQuestItem>
     {
@@ -47,6 +47,16 @@ public class PlayerSideQuest
         }
     }
 
+    public void ToggleHoldOnQuest(SideQuestItem quest)
+    {
+        quest.Hold = !quest.Hold;
+    }
+
+    public void CompleteQuest(SideQuestItem quest)
+    {
+        quest.Completed = true;
+    }
+
     private SideQuestItem GetNewSideQuest()
     {
         var randomValue = _random.Next(0, 100);
@@ -78,5 +88,11 @@ public class PlayerSideQuest
             return easy.First();
         }
     }
+}
 
+public interface IPlayerSideQuest
+{
+    void RefillSideQuests();
+    void ToggleHoldOnQuest(SideQuestItem quest);
+    void CompleteQuest(SideQuestItem quest);
 }

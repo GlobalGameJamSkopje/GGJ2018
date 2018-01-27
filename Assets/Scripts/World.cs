@@ -12,6 +12,7 @@ public class World
     public List<QuestItem> Quests { get; private set; }
     public Plain P1Plain { get; private set; }
     public Plain P2Plain { get; private set; }
+
     public PlayerSideQuest P1SideQuest { get; private set; }
     public PlayerSideQuest P2SideQuest { get; private set; }
 
@@ -30,6 +31,9 @@ public class World
 
         P1Resources = new PlayerResources(0, 0, 0);
         P2Resources = new PlayerResources(0, 0, 0);
+
+        P1SideQuest = new PlayerSideQuest();
+        P2SideQuest = new PlayerSideQuest();
 
         var resourceTypes = GenerateResourceTypes();
 
