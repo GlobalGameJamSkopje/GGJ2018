@@ -74,6 +74,8 @@ public class GameController : MonoBehaviour
     {
         Player1Turn();
 
+        
+
         _worldCreator.GenerateWorld(_world);
 
         _p1PositionTile = _worldCreator.ViewTilesMultiArrayPlayerOne[0, 0];
@@ -115,8 +117,7 @@ public class GameController : MonoBehaviour
             {
                 PlayerTwoTurnCanvas.SetActive(true);
             }
-            RefreshSideQuestsP1();
-            RefreshSideQuestsP2();
+            
         }
         else
         {
@@ -129,8 +130,7 @@ public class GameController : MonoBehaviour
             {
                 PlayerOneTurnCanvas.SetActive(true);
             }
-            RefreshSideQuestsP1();
-            RefreshSideQuestsP2();
+            
         }
     }
 
@@ -493,7 +493,7 @@ public class GameController : MonoBehaviour
         GreenResourcesText.text = "x " + _world.P1Resources.NumberOfGreenResources;
         BlueResourcesText.text = "x " + _world.P1Resources.NumberOfBlueResources;
 
-        
+        RefreshSideQuestsP1();
 
         RefreshQuestsUI();
     }
@@ -507,6 +507,7 @@ public class GameController : MonoBehaviour
         GreenResourcesText.text = "x " + _world.P2Resources.NumberOfGreenResources;
         BlueResourcesText.text = "x " + _world.P2Resources.NumberOfBlueResources;
 
+        RefreshSideQuestsP2();
         
 
         RefreshQuestsUI();
