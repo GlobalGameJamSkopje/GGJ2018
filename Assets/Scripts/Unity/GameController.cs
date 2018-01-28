@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
+    private bool _canCastRay = true;
+
     public GameObject Player1;
     public GameObject Player2;
 
@@ -79,23 +81,26 @@ public class GameController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && _canCastRay)
         {
             RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
 
             if (hit.collider != null)
             {
-                if (_currentPlayer == PlayerIndex.P1)
-                    MoveP1(hit.collider.gameObject.GetComponent<ViewTile>());
-                else
-                    MoveP2(hit.collider.gameObject.GetComponent<ViewTile>());
-
+                if (hit.collider.gameObject.GetComponent<ViewTile>())
+                {
+                    if (_currentPlayer == PlayerIndex.P1)
+                        MoveP1(hit.collider.gameObject.GetComponent<ViewTile>());
+                    else
+                        MoveP2(hit.collider.gameObject.GetComponent<ViewTile>());
+                }
             }
         }
     }
 
     public void NextTurn()
     {
+        _canCastRay = false;
         if (_currentPlayer == PlayerIndex.P1)
         {
             Player2Turn();
@@ -124,6 +129,7 @@ public class GameController : MonoBehaviour
 
     public void CloseNextTurnPanels()
     {
+        _canCastRay = true;
         PlayerOneTurnCanvas.SetActive(false);
         PlayerTwoTurnCanvas.SetActive(false);
     }
