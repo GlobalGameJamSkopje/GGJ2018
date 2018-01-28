@@ -32,8 +32,8 @@ public class SideQuestItem : QuestItem
         if (Reward == Reward.Dig) rewards.Add("1 Dig");
         if (Reward == Reward.Build) rewards.Add("1 Build");
         if (Reward == Reward.MoveX2) rewards.Add("2 Move");
-        if (Reward == Reward.Dig) rewards.Add("2 Dig");
-        if (Reward == Reward.Build) rewards.Add("2 Build");
+        if (Reward == Reward.DigX2) rewards.Add("2 Dig");
+        if (Reward == Reward.BuildX2) rewards.Add("2 Build");
 
         return string.Format("Requirements: (RGB):({0},{1},{2}) \n", RequiredRedResources, RequiredGreenResources, RequiredBlueResources) +
             "Reward: " + string.Join(",", rewards.ToArray());

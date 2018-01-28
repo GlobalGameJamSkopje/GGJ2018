@@ -72,7 +72,7 @@ public class PlayerAction
         if (quest.Reward == Reward.Dig) Dig++;
         if (quest.Reward == Reward.Build) Build++;
         if (quest.Reward == Reward.MoveX2) Move += 2;
-        if (quest.Reward == Reward.Dig) Dig += 2;
-        if (quest.Reward == Reward.Build) Build += 2;
+        if (quest.Reward == Reward.DigX2) Dig += 2;
+        if (quest.Reward == Reward.BuildX2) Build += 2;
     }
 }
