@@ -38,11 +38,14 @@ public class PlayerSideQuest : IPlayerSideQuest
     {
         for (var i = 0; i < SideQuests.Count; i++)
         {
-            if (!SideQuests.ElementAt(i).Hold)
+            var quest = SideQuests.ElementAt(i);
+
+            var shouldReplaceQuest = quest.Completed || !quest.Hold;
+            if (shouldReplaceQuest)
             {
-                var sideQuest = GetNewSideQuest();
+                var newQuest = GetNewSideQuest();
                 SideQuests.RemoveAt(i);
-                SideQuests.Add(sideQuest);
+                SideQuests.Add(newQuest);
             }
         }
     }
