@@ -65,6 +65,7 @@ sysinfo.txt
 
 # Include only the .meta files in specific folders
 *.meta
+!Assets/[Aa]udio/**/*.meta
 !Assets/[Ee]ditor/**/*.meta
 !Assets/Editor Default Resources/**/*.meta
 !Assets/[Gg]izmos/**/*.meta
