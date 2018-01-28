@@ -76,6 +76,7 @@ sysinfo.txt
 !Assets/[Mm]aterials/**/*.meta
 !Assets/[Ss]prites/**/*.meta
 !Assets/[Aa]nimators/**/*.meta
+!Assets/[Aa]nimations/**/*.meta
 !Assets/Standard Assets/**/*.meta
 !Assets/StreamingAssets/**/*.meta
 
