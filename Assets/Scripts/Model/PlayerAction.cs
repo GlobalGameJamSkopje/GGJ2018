@@ -68,6 +68,8 @@ public class PlayerAction
 
     public void GetSideQuestReward(SideQuestItem quest)
     {
+        if (quest.Completed) return;
+
         switch (quest.Reward)
         {
             case Reward.None:
