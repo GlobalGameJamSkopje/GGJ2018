@@ -114,7 +114,9 @@ public class GameController : MonoBehaviour
             else
             {
                 PlayerTwoTurnCanvas.SetActive(true);
-            } 
+            }
+            RefreshSideQuestsP1();
+            RefreshSideQuestsP2();
         }
         else
         {
@@ -126,7 +128,9 @@ public class GameController : MonoBehaviour
             else
             {
                 PlayerOneTurnCanvas.SetActive(true);
-            }      
+            }
+            RefreshSideQuestsP1();
+            RefreshSideQuestsP2();
         }
     }
 
@@ -489,6 +493,27 @@ public class GameController : MonoBehaviour
         GreenResourcesText.text = "x " + _world.P1Resources.NumberOfGreenResources;
         BlueResourcesText.text = "x " + _world.P1Resources.NumberOfBlueResources;
 
+        
+
+        RefreshQuestsUI();
+    }
+
+    private void RefreshUIP2()
+    {
+        FirstSideQuestHoldImage.gameObject.SetActive(true);
+        SecondSideQuestHoldImage.gameObject.SetActive(true);
+
+        RedResourcesText.text = "x " + _world.P2Resources.NumberOfRedResources;
+        GreenResourcesText.text = "x " + _world.P2Resources.NumberOfGreenResources;
+        BlueResourcesText.text = "x " + _world.P2Resources.NumberOfBlueResources;
+
+        
+
+        RefreshQuestsUI();
+    }
+
+    private void RefreshSideQuestsP1()
+    {
         if (_world.P1SideQuest.SideQuests[0].Hold)
         {
             FirstSideQuestHoldImage.sprite = HoldSprite;
@@ -509,19 +534,10 @@ public class GameController : MonoBehaviour
 
         FirstSideQuestText.text = _world.P1SideQuest.SideQuests[0].ToString();
         SecondSideQuestText.text = _world.P1SideQuest.SideQuests[1].ToString();
-
-        RefreshQuestsUI();
     }
 
-    private void RefreshUIP2()
+    private void RefreshSideQuestsP2()
     {
-        FirstSideQuestHoldImage.gameObject.SetActive(true);
-        SecondSideQuestHoldImage.gameObject.SetActive(true);
-
-        RedResourcesText.text = "x " + _world.P2Resources.NumberOfRedResources;
-        GreenResourcesText.text = "x " + _world.P2Resources.NumberOfGreenResources;
-        BlueResourcesText.text = "x " + _world.P2Resources.NumberOfBlueResources;
-
         if (_world.P2SideQuest.SideQuests[0].Hold)
         {
             FirstSideQuestHoldImage.sprite = HoldSprite;
@@ -542,8 +558,6 @@ public class GameController : MonoBehaviour
 
         FirstSideQuestText.text = _world.P2SideQuest.SideQuests[0].ToString();
         SecondSideQuestText.text = _world.P2SideQuest.SideQuests[1].ToString();
-
-        RefreshQuestsUI();
     }
 
     private void RefreshQuestsUI()
