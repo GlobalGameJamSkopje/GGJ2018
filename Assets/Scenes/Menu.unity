@@ -710,7 +710,7 @@ Prefab:
     - target: {fileID: 8286744, guid: 45616935e4fe10f48b62da1347801a16, type: 2}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: 67c9ab103eb7e6a41851e507630cbfdc, type: 3}
+      objectReference: {fileID: 8300000, guid: 936100e5b74363c4c828220deca55fad, type: 3}
     - target: {fileID: 8286744, guid: 45616935e4fe10f48b62da1347801a16, type: 2}
       propertyPath: OutputAudioMixerGroup
       value: 
@@ -796,7 +796,7 @@ Prefab:
     - target: {fileID: 11423466, guid: 45616935e4fe10f48b62da1347801a16, type: 2}
       propertyPath: mainMusic
       value: 
-      objectReference: {fileID: 8300000, guid: e4ded1b30afb1124a8eaf7e520c1ea93, type: 3}
+      objectReference: {fileID: 8300000, guid: e409e789ab673e84fb5848778288e1a4, type: 3}
     - target: {fileID: 22434976, guid: 45616935e4fe10f48b62da1347801a16, type: 2}
       propertyPath: m_AnchoredPosition.y
       value: -34
@@ -812,7 +812,7 @@ Prefab:
     - target: {fileID: 11423466, guid: 45616935e4fe10f48b62da1347801a16, type: 2}
       propertyPath: titleMusic
       value: 
-      objectReference: {fileID: 8300000, guid: 67c9ab103eb7e6a41851e507630cbfdc, type: 3}
+      objectReference: {fileID: 8300000, guid: 936100e5b74363c4c828220deca55fad, type: 3}
     - target: {fileID: 159020, guid: 45616935e4fe10f48b62da1347801a16, type: 2}
       propertyPath: m_IsActive
       value: 0

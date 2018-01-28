@@ -12,6 +12,9 @@ public class GameController : MonoBehaviour
     public GameObject Player1;
     public GameObject Player2;
 
+    public AudioSource audioSource;
+    public AudioClip MoveSFX, BuildSFX, DigSFX;
+
     public Text RedResourcesText, GreenResourcesText, BlueResourcesText;
 
     public Image FirstSideQuestHoldImage, SecondSideQuestHoldImage;
@@ -280,6 +283,7 @@ public class GameController : MonoBehaviour
             case TileType.Mine:
                 break;
             case TileType.Field:
+                audioSource.PlayOneShot(DigSFX);
                 tileP1.Dig();
                 tileP2.Raise();
                 _worldCreator.MakeMineP1(tile);
@@ -294,6 +298,7 @@ public class GameController : MonoBehaviour
                 break;
             case TileType.Mountain:
                 tileP1.Dig();
+                audioSource.PlayOneShot(DigSFX);
                 _world.P1Action.UseAction(PlayerActionType.Dig);
                 if (tileP2.TileType == TileType.Mine)
                 {
@@ -324,6 +329,7 @@ public class GameController : MonoBehaviour
                 break;
             case TileType.Field:
                 tileP2.Dig();
+                audioSource.PlayOneShot(DigSFX);
                 tileP1.Raise();
                 _worldCreator.MakeMineP2(tile);
                 _worldCreator.MakeMountainP1(tile);
@@ -337,6 +343,7 @@ public class GameController : MonoBehaviour
                 break;
             case TileType.Mountain:
                 tileP2.Dig();
+                audioSource.PlayOneShot(DigSFX);
                 _world.P2Action.UseAction(PlayerActionType.Dig);
                 if (tileP1.TileType == TileType.Mine)
                 {
@@ -365,6 +372,7 @@ public class GameController : MonoBehaviour
         {
             case TileType.Mine:
                 tileP1.BuildTower();
+                audioSource.PlayOneShot(BuildSFX);
                 _worldCreator.MakeTowerP1(tile);
                 tile.ActivateTower();
                 _world.P1Resources.AddResource(tileP1.ResourceType, TileType.Mine);
@@ -373,6 +381,7 @@ public class GameController : MonoBehaviour
                 break;
             case TileType.Field:
                 tileP1.BuildTower();
+                audioSource.PlayOneShot(BuildSFX);
                 _worldCreator.MakeTowerP1(tile);
                 tile.ActivateTower();
                 _world.P1Resources.AddResource(tileP1.ResourceType, TileType.Field);
@@ -395,6 +404,7 @@ public class GameController : MonoBehaviour
         {
             case TileType.Mine:
                 tileP2.BuildTower();
+                audioSource.PlayOneShot(BuildSFX);
                 _worldCreator.MakeTowerP2(tile);
                 tile.ActivateTower();
                 _world.P2Resources.AddResource(tileP2.ResourceType, TileType.Mine);
@@ -402,6 +412,7 @@ public class GameController : MonoBehaviour
                 break;
             case TileType.Field:
                 tileP2.BuildTower();
+                audioSource.PlayOneShot(BuildSFX);
                 _worldCreator.MakeTowerP2(tile);
                 tile.ActivateTower();
                 _world.P2Resources.AddResource(tileP2.ResourceType, TileType.Field);
@@ -426,6 +437,7 @@ public class GameController : MonoBehaviour
             _world.P1Action.UseAction(PlayerActionType.Move);
             _p1PositionTile = tile;
             Player1.transform.position = tile.transform.position;
+            audioSource.PlayOneShot(MoveSFX);
         }
     }
 
@@ -441,6 +453,7 @@ public class GameController : MonoBehaviour
             _world.P2Action.UseAction(PlayerActionType.Move);
             _p2PositionTile = tile;
             Player2.transform.position = tile.transform.position;
+            audioSource.PlayOneShot(BuildSFX);
         }
     }
 
