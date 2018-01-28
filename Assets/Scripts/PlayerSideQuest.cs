@@ -4,7 +4,7 @@ using System.Linq;
 
 public class PlayerSideQuest : IPlayerSideQuest
 {
-    public static readonly List<SideQuestItem> AllSideQuests = new List<SideQuestItem>
+    public readonly List<SideQuestItem> AllSideQuests = new List<SideQuestItem>
     {
         new SideQuestItem(6, 0, 0, QuestDifficulty.Easy, Reward.Move),
         new SideQuestItem(0, 6, 0, QuestDifficulty.Easy, Reward.Dig),

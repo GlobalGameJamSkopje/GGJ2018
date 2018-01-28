@@ -62,7 +62,7 @@ public class PlayerAction
                 break;
 
             default:
-                throw new ArgumentOutOfRangeException("actionType", actionType, null);
+                break;
         }
     }
 
@@ -90,8 +90,37 @@ public class PlayerAction
             case Reward.BuildX2:
                 Build += 2;
                 break;
+            case Reward.Move | Reward.Dig | Reward.Build:
+                Move++;
+                Dig++;
+                Build++;
+                break;
+            case Reward.MoveX2 | Reward.Dig:
+                Move += 2;
+                Dig++;
+                break;
+            case Reward.MoveX2 | Reward.Build:
+                Move += 2;
+                Build++;
+                break;
+            case Reward.DigX2 | Reward.Move:
+                Dig += 2;
+                Move++;
+                break;
+            case Reward.DigX2 | Reward.Build:
+                Dig += 2;
+                Build++;
+                break;
+            case Reward.BuildX2 | Reward.Move:
+                Build += 2;
+                Move++;
+                break;
+            case Reward.BuildX2 | Reward.Dig:
+                Build += 2;
+                Dig++;
+                break;
             default:
-                throw new ArgumentOutOfRangeException();
+                break;
         }
     }
 }

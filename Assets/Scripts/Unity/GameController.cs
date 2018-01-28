@@ -12,7 +12,7 @@ public class GameController : MonoBehaviour
     public Text RedResourcesText, GreenResourcesText, BlueResourcesText;
     public Text Quest1Text, Quest2Text, Quest3Text, Quest4Text, Quest5Text;
 
-    public Image FirstSideQuestHoldImage,SecondSideQuestHoldImage;
+    public Image FirstSideQuestHoldImage, SecondSideQuestHoldImage;
     public Text FirstSideQuestText, SecondSideQuestText;
 
     private WorldCreator _worldCreator;
@@ -116,7 +116,7 @@ public class GameController : MonoBehaviour
         {
             var quest = _world.P1SideQuest.SideQuests[0];
             if (_questSolver.CanBeSolved(quest, _world.P1Resources))
-            {          
+            {
                 _world.P1SideQuest.CompleteQuest(quest);
                 _world.P1Action.GetSideQuestReward(quest);
                 //TODO: refresh actions UI
@@ -198,7 +198,7 @@ public class GameController : MonoBehaviour
 
                 break;
             default:
-                throw new ArgumentOutOfRangeException();
+                break;
         }
     }
 
@@ -242,7 +242,7 @@ public class GameController : MonoBehaviour
 
                 break;
             default:
-                throw new ArgumentOutOfRangeException();
+                break;
         }
     }
 

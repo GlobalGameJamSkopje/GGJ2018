@@ -39,7 +39,7 @@ public class QuestCreator : IQuestCreator
                         item.Blue++;
                         break;
                     default:
-                        throw new ArgumentOutOfRangeException();
+                        break;
                 }
             }
         }
@@ -73,7 +73,7 @@ public class QuestCreator : IQuestCreator
                 result = result && questDraft.Blue < MaxQuestColorRequirement;
                 break;
             default:
-                throw new ArgumentOutOfRangeException();
+                break;
         }
 
         return result;

@@ -24,7 +24,7 @@ public class SideQuestItem : QuestItem
         Hold = false;
         Completed = false;
     }
-
+    
     public override string ToString()
     {
         var rewards = new List<string>();
@@ -51,10 +51,39 @@ public class SideQuestItem : QuestItem
             case Reward.BuildX2:
                 rewards.Add("2 Build");
                 break;
+            case Reward.Move | Reward.Dig | Reward.Build:
+                rewards.Add("1 Move");
+                rewards.Add("1 Dig");
+                rewards.Add("1 Build");
+                break;
+            case Reward.MoveX2 | Reward.Dig:
+                rewards.Add("2 Move");
+                rewards.Add("1 Dig");
+                break;
+            case Reward.MoveX2 | Reward.Build:
+                rewards.Add("2 Move");
+                rewards.Add("1 Build");
+                break;
+            case Reward.DigX2 | Reward.Move:
+                rewards.Add("1 Move");
+                rewards.Add("2 Dig");
+                break;
+            case Reward.DigX2 | Reward.Build:
+                rewards.Add("2 Dig");
+                rewards.Add("1 Build");
+                break;
+            case Reward.BuildX2 | Reward.Move:
+                rewards.Add("1 Move");
+                rewards.Add("2 Build");
+                break;
+            case Reward.BuildX2 | Reward.Dig:
+                rewards.Add("1 Dig");
+                rewards.Add("2 Build");
+                break;
             default:
-                throw new ArgumentOutOfRangeException();
+                break;
         }
-        
+
         return string.Format("Requirements: (RGB):({0},{1},{2}) \n", RequiredRedResources, RequiredGreenResources, RequiredBlueResources) +
             "Reward: " + string.Join(",", rewards.ToArray());
     }

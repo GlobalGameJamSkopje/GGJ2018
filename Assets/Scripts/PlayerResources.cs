@@ -29,7 +29,7 @@ public class PlayerResources : IPlayerResources
                 NumberOfBlueResources += tileValue;
                 break;
             default:
-                throw new ArgumentOutOfRangeException("resourceType", resourceType, null);
+                break;
         }
     }
 
@@ -50,7 +50,7 @@ public class PlayerResources : IPlayerResources
                     NumberOfBlueResources--;
                 break;
             default:
-                throw new ArgumentOutOfRangeException("resourceType", resourceType, null);
+                break;
         }
     }
 
