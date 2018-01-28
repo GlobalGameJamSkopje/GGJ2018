@@ -62,6 +62,7 @@ public class PlayerSideQuest : IPlayerSideQuest
 
     private SideQuestItem GetNewSideQuest()
     {
+        SideQuestItem result;
         var randomValue = _random.Next(0, 100);
         if (randomValue > 85)
         {
@@ -70,7 +71,7 @@ public class PlayerSideQuest : IPlayerSideQuest
                 .Where(x => x.Difficulty == QuestDifficulty.Hard)
                 .ToList().Shuffle();
 
-            return hard.First();
+            result = hard.First();
         }
         else if (randomValue > 50)
         {
@@ -79,7 +80,7 @@ public class PlayerSideQuest : IPlayerSideQuest
                 .Where(x => x.Difficulty == QuestDifficulty.Medium)
                 .ToList().Shuffle();
 
-            return medium.First();
+            result = medium.First();
         }
         else
         {
@@ -88,7 +89,11 @@ public class PlayerSideQuest : IPlayerSideQuest
                 .Where(x => x.Difficulty == QuestDifficulty.Easy)
                 .ToList().Shuffle();
 
-            return easy.First();
+            result = easy.First();
         }
+
+        result.Hold = false;
+        result.Completed = false;
+        return result;
     }
 }

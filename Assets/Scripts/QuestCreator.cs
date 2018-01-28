@@ -13,9 +13,9 @@ public class QuestCreator : IQuestCreator
     {
         var questDrafts = GetQuestionDrafts();
 
-        var modifiedRed = red + GetRandomBetween(1, 4);
-        var modifiedGreen = green + GetRandomBetween(0, 4);
-        var modifiedBlue = blue + GetRandomBetween(0, 4);
+        var modifiedRed = red + GetRandomBetween(1, 2);
+        var modifiedGreen = green + GetRandomBetween(0, 2);
+        var modifiedBlue = blue + GetRandomBetween(0, 2);
 
         var resources = GetShuffledResources(modifiedRed, modifiedGreen, modifiedBlue);
         while (resources.Any())
