@@ -48,6 +48,9 @@ public class PlayerSideQuest : IPlayerSideQuest
                 SideQuests.Add(newQuest);
             }
         }
+
+        foreach (var item in SideQuests)
+            item.Completed = false;
     }
 
     public void ToggleHoldOnQuest(SideQuestItem quest)
