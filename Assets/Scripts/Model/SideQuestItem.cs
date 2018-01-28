@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 public class SideQuestItem : QuestItem
@@ -28,13 +29,32 @@ public class SideQuestItem : QuestItem
     {
         var rewards = new List<string>();
 
-        if (Reward == Reward.Move) rewards.Add("1 Move");
-        if (Reward == Reward.Dig) rewards.Add("1 Dig");
-        if (Reward == Reward.Build) rewards.Add("1 Build");
-        if (Reward == Reward.MoveX2) rewards.Add("2 Move");
-        if (Reward == Reward.DigX2) rewards.Add("2 Dig");
-        if (Reward == Reward.BuildX2) rewards.Add("2 Build");
-
+        switch (Reward)
+        {
+            case Reward.None:
+                break;
+            case Reward.Move:
+                rewards.Add("1 Move");
+                break;
+            case Reward.Dig:
+                rewards.Add("1 Dig");
+                break;
+            case Reward.Build:
+                rewards.Add("1 Build");
+                break;
+            case Reward.MoveX2:
+                rewards.Add("2 Move");
+                break;
+            case Reward.DigX2:
+                rewards.Add("2 Dig");
+                break;
+            case Reward.BuildX2:
+                rewards.Add("2 Build");
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+        
         return string.Format("Requirements: (RGB):({0},{1},{2}) \n", RequiredRedResources, RequiredGreenResources, RequiredBlueResources) +
             "Reward: " + string.Join(",", rewards.ToArray());
     }

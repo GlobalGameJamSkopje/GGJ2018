@@ -68,11 +68,30 @@ public class PlayerAction
 
     public void GetSideQuestReward(SideQuestItem quest)
     {
-        if (quest.Reward == Reward.Move) Move++;
-        if (quest.Reward == Reward.Dig) Dig++;
-        if (quest.Reward == Reward.Build) Build++;
-        if (quest.Reward == Reward.MoveX2) Move += 2;
-        if (quest.Reward == Reward.DigX2) Dig += 2;
-        if (quest.Reward == Reward.BuildX2) Build += 2;
+        switch (quest.Reward)
+        {
+            case Reward.None:
+                break;
+            case Reward.Move:
+                Move++;
+                break;
+            case Reward.Dig:
+                Dig++;
+                break;
+            case Reward.Build:
+                Build++;
+                break;
+            case Reward.MoveX2:
+                Move += 2;
+                break;
+            case Reward.DigX2:
+                Dig += 2;
+                break;
+            case Reward.BuildX2:
+                Build += 2;
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
     }
 }
