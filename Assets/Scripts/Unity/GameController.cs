@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -10,10 +11,14 @@ public class GameController : MonoBehaviour
     public GameObject Player2;
 
     public Text RedResourcesText, GreenResourcesText, BlueResourcesText;
-    public Text Quest1Text, Quest2Text, Quest3Text, Quest4Text, Quest5Text;
 
     public Image FirstSideQuestHoldImage, SecondSideQuestHoldImage;
     public Text FirstSideQuestText, SecondSideQuestText;
+    public Sprite HoldSprite, UnholdSprite;
+
+    public GameObject PlayerOneTurnCanvas, PlayerTwoTurnCanvas;
+    public GameObject PlayerOneWinCanvas, PlayerTwoWinCanvas;
+
 
     private WorldCreator _worldCreator;
     private World _world;
@@ -21,6 +26,35 @@ public class GameController : MonoBehaviour
 
     private ViewTile _p1PositionTile;
     private ViewTile _p2PositionTile;
+
+    [Header("Quests")] public Color32 DefaultGemColor;
+
+    [Header("Quest1")] [Space] public Image Q1RedGem1;
+    public Image Q1RedGem2, Q1RedGem3;
+    public Image Q1GreenGem1, Q1GreenGem2, Q1GreenGem3;
+    public Image Q1BlueGem1, Q1BlueGem2, Q1BlueGem3;
+
+    [Header("Quest2")] [Space] public Image Q2RedGem1;
+    public Image Q2RedGem2, Q2RedGem3;
+    public Image Q2GreenGem1, Q2GreenGem2, Q2GreenGem3;
+    public Image Q2BlueGem1, Q2BlueGem2, Q2BlueGem3;
+
+    [Header("Quest3")] [Space] public Image Q3RedGem1;
+    public Image Q3RedGem2, Q3RedGem3;
+    public Image Q3GreenGem1, Q3GreenGem2, Q3GreenGem3;
+    public Image Q3BlueGem1, Q3BlueGem2, Q3BlueGem3;
+
+    [Header("Quest4")] [Space] public Image Q4RedGem1;
+    public Image Q4RedGem2, Q4RedGem3;
+    public Image Q4GreenGem1, Q4GreenGem2, Q4GreenGem3;
+    public Image Q4BlueGem1, Q4BlueGem2, Q4BlueGem3;
+
+    [Header("Quest5")] [Space] public Image Q5RedGem1;
+    public Image Q5RedGem2, Q5RedGem3;
+    public Image Q5GreenGem1, Q5GreenGem2, Q5GreenGem3;
+    public Image Q5BlueGem1, Q5BlueGem2, Q5BlueGem3;
+
+
 
     private PlayerIndex _currentPlayer;
 
@@ -62,8 +96,41 @@ public class GameController : MonoBehaviour
 
     public void NextTurn()
     {
-        if (_currentPlayer == PlayerIndex.P1) Player2Turn();
-        else Player1Turn();
+        if (_currentPlayer == PlayerIndex.P1)
+        {
+            Player2Turn();
+            if (_questSolver.CanBeSolved(_world.Quests, _world.P1Resources))
+            {
+                PlayerOneWinCanvas.SetActive(true);
+            }
+            else
+            {
+                PlayerTwoTurnCanvas.SetActive(true);
+            } 
+        }
+        else
+        {
+            Player1Turn();
+            if (_questSolver.CanBeSolved(_world.Quests, _world.P2Resources))
+            {
+                PlayerTwoWinCanvas.SetActive(true);
+            }
+            else
+            {
+                PlayerOneTurnCanvas.SetActive(true);
+            }      
+        }
+    }
+
+    public void CloseNextTurnPanels()
+    {
+        PlayerOneTurnCanvas.SetActive(false);
+        PlayerTwoTurnCanvas.SetActive(false);
+    }
+
+    public void GoToMainMenu()
+    {
+        SceneManager.LoadScene(0);
     }
 
     public void Build()
@@ -87,12 +154,28 @@ public class GameController : MonoBehaviour
         if (_currentPlayer == PlayerIndex.P1)
         {
             _world.P1SideQuest.ToggleHoldOnQuest(_world.P1SideQuest.SideQuests[0]);
-            //TODO: change sprite
+
+            if (_world.P1SideQuest.SideQuests[0].Hold)
+            {
+                FirstSideQuestHoldImage.sprite = HoldSprite;
+            }
+            else
+            {
+                FirstSideQuestHoldImage.sprite = UnholdSprite;
+            }
         }
         else
         {
             _world.P2SideQuest.ToggleHoldOnQuest(_world.P2SideQuest.SideQuests[0]);
-            //TODO: change sprite
+
+            if (_world.P2SideQuest.SideQuests[0].Hold)
+            {
+                FirstSideQuestHoldImage.sprite = HoldSprite;
+            }
+            else
+            {
+                FirstSideQuestHoldImage.sprite = UnholdSprite;
+            }
         }
     }
 
@@ -101,12 +184,28 @@ public class GameController : MonoBehaviour
         if (_currentPlayer == PlayerIndex.P1)
         {
             _world.P1SideQuest.ToggleHoldOnQuest(_world.P1SideQuest.SideQuests[1]);
-            //TODO:change sprite
+
+            if (_world.P1SideQuest.SideQuests[1].Hold)
+            {
+                SecondSideQuestHoldImage.sprite = HoldSprite;
+            }
+            else
+            {
+                SecondSideQuestHoldImage.sprite = UnholdSprite;
+            }
         }
         else
         {
             _world.P2SideQuest.ToggleHoldOnQuest(_world.P2SideQuest.SideQuests[1]);
-            //TODO: change sprite
+
+            if (_world.P2SideQuest.SideQuests[1].Hold)
+            {
+                SecondSideQuestHoldImage.sprite = HoldSprite;
+            }
+            else
+            {
+                SecondSideQuestHoldImage.sprite = UnholdSprite;
+            }
         }
     }
 
@@ -117,8 +216,8 @@ public class GameController : MonoBehaviour
             var quest = _world.P1SideQuest.SideQuests[0];
             if (_questSolver.CanBeSolved(quest, _world.P1Resources))
             {
-                _world.P1SideQuest.CompleteQuest(quest);
                 _world.P1Action.GetSideQuestReward(quest);
+                _world.P1SideQuest.CompleteQuest(quest);
                 //TODO: refresh actions UI
             }
         }
@@ -127,8 +226,8 @@ public class GameController : MonoBehaviour
             var quest = _world.P2SideQuest.SideQuests[0];
             if (_questSolver.CanBeSolved(quest, _world.P1Resources))
             {
-                _world.P2SideQuest.CompleteQuest(quest);
                 _world.P2Action.GetSideQuestReward(quest);
+                _world.P2SideQuest.CompleteQuest(quest);
                 //TODO: refresh actions UI
             }
         }
@@ -141,8 +240,8 @@ public class GameController : MonoBehaviour
             var quest = _world.P1SideQuest.SideQuests[1];
             if (_questSolver.CanBeSolved(quest, _world.P1Resources))
             {
-                _world.P1SideQuest.CompleteQuest(quest);
                 _world.P1Action.GetSideQuestReward(quest);
+                _world.P1SideQuest.CompleteQuest(quest);
                 //TODO: refresh actions UI
             }
         }
@@ -151,8 +250,8 @@ public class GameController : MonoBehaviour
             var quest = _world.P2SideQuest.SideQuests[1];
             if (_questSolver.CanBeSolved(quest, _world.P1Resources))
             {
-                _world.P2SideQuest.CompleteQuest(quest);
                 _world.P2Action.GetSideQuestReward(quest);
+                _world.P2SideQuest.CompleteQuest(quest);
                 //TODO: refresh actions UI
             }
         }
@@ -337,20 +436,24 @@ public class GameController : MonoBehaviour
 
     private void Player1Turn()
     {
+        _currentPlayer = PlayerIndex.P1;
+
         _world.P1SideQuest.RefillSideQuests();
-        RefreshUIP1();
         Camera.main.transform.position = new Vector3(0, 0, -10);
         _world.P1Action.NewTurn();
-        _currentPlayer = PlayerIndex.P1;
+
+        RefreshUIP1();
     }
 
     private void Player2Turn()
     {
+        _currentPlayer = PlayerIndex.P2;
+
         _world.P2SideQuest.RefillSideQuests();
-        RefreshUIP2();
         Camera.main.transform.position = new Vector3(20, 0, -10);
         _world.P2Action.NewTurn();
-        _currentPlayer = PlayerIndex.P2;
+
+        RefreshUIP2();
 
     }
 
@@ -360,29 +463,28 @@ public class GameController : MonoBehaviour
         GreenResourcesText.text = "x " + _world.P1Resources.NumberOfGreenResources;
         BlueResourcesText.text = "x " + _world.P1Resources.NumberOfBlueResources;
 
+        if (_world.P1SideQuest.SideQuests[0].Hold)
+        {
+            FirstSideQuestHoldImage.sprite = HoldSprite;
+        }
+        else
+        {
+            FirstSideQuestHoldImage.sprite = UnholdSprite;
+        }
+
+        if (_world.P1SideQuest.SideQuests[1].Hold)
+        {
+            SecondSideQuestHoldImage.sprite = HoldSprite;
+        }
+        else
+        {
+            SecondSideQuestHoldImage.sprite = UnholdSprite;
+        }
+
         FirstSideQuestText.text = _world.P1SideQuest.SideQuests[0].ToString();
         SecondSideQuestText.text = _world.P1SideQuest.SideQuests[1].ToString();
 
-
-        Quest1Text.text = "red : " + _world.Quests[0].RequiredRedResources.ToString() + " : " + _world.P1Resources.NumberOfRedResources + "\n"
-            + "green : " + _world.Quests[0].RequiredGreenResources.ToString() + " : " + _world.P1Resources.NumberOfGreenResources + "\n"
-            + "blue : " + _world.Quests[0].RequiredBlueResources.ToString() + " : " + _world.P1Resources.NumberOfBlueResources;
-
-        Quest2Text.text = "red : " + _world.Quests[1].RequiredRedResources.ToString() + " : " + _world.P1Resources.NumberOfRedResources + "\n"
-                          + "green : " + _world.Quests[1].RequiredGreenResources.ToString() + " : " + _world.P1Resources.NumberOfGreenResources + "\n"
-                          + "blue : " + _world.Quests[1].RequiredBlueResources.ToString() + " : " + _world.P1Resources.NumberOfBlueResources;
-
-        Quest3Text.text = "red : " + _world.Quests[2].RequiredRedResources.ToString() + " : " + _world.P1Resources.NumberOfRedResources + "\n"
-                          + "green : " + _world.Quests[2].RequiredGreenResources.ToString() + " : " + _world.P1Resources.NumberOfGreenResources + "\n"
-                          + "blue : " + _world.Quests[2].RequiredBlueResources.ToString() + " : " + _world.P1Resources.NumberOfBlueResources;
-
-        Quest4Text.text = "red : " + _world.Quests[3].RequiredRedResources.ToString() + " : " + _world.P1Resources.NumberOfRedResources + "\n"
-                          + "green : " + _world.Quests[3].RequiredGreenResources.ToString() + " : " + _world.P1Resources.NumberOfGreenResources + "\n"
-                          + "blue : " + _world.Quests[3].RequiredBlueResources.ToString() + " : " + _world.P1Resources.NumberOfBlueResources;
-
-        Quest5Text.text = "red : " + _world.Quests[4].RequiredRedResources.ToString() + " : " + _world.P1Resources.NumberOfRedResources + "\n"
-                          + "green : " + _world.Quests[4].RequiredGreenResources.ToString() + " : " + _world.P1Resources.NumberOfGreenResources + "\n"
-                          + "blue : " + _world.Quests[4].RequiredBlueResources.ToString() + " : " + _world.P1Resources.NumberOfBlueResources;
+        RefreshQuestsUI();
     }
 
     private void RefreshUIP2()
@@ -391,8 +493,236 @@ public class GameController : MonoBehaviour
         GreenResourcesText.text = "x " + _world.P2Resources.NumberOfGreenResources;
         BlueResourcesText.text = "x " + _world.P2Resources.NumberOfBlueResources;
 
+        if (_world.P2SideQuest.SideQuests[0].Hold)
+        {
+            FirstSideQuestHoldImage.sprite = HoldSprite;
+        }
+        else
+        {
+            FirstSideQuestHoldImage.sprite = UnholdSprite;
+        }
+
+        if (_world.P2SideQuest.SideQuests[1].Hold)
+        {
+            SecondSideQuestHoldImage.sprite = HoldSprite;
+        }
+        else
+        {
+            SecondSideQuestHoldImage.sprite = UnholdSprite;
+        }
+
         FirstSideQuestText.text = _world.P2SideQuest.SideQuests[0].ToString();
         SecondSideQuestText.text = _world.P2SideQuest.SideQuests[1].ToString();
+
+        RefreshQuestsUI();
     }
 
+    private void RefreshQuestsUI()
+    {
+        RefreshQuest1UI();
+        RefreshQuest2UI();
+        RefreshQuest3UI();
+        RefreshQuest4UI();
+        RefreshQuest5UI();
+    }
+
+    private void RefreshQuest1UI()
+    {
+        Q1RedGem1.color = DefaultGemColor;
+        Q1RedGem2.color = DefaultGemColor;
+        Q1RedGem3.color = DefaultGemColor;
+
+        Q1GreenGem1.color = DefaultGemColor;
+        Q1GreenGem2.color = DefaultGemColor;
+        Q1GreenGem3.color = DefaultGemColor;
+
+        Q1BlueGem1.color = DefaultGemColor;
+        Q1BlueGem2.color = DefaultGemColor;
+        Q1BlueGem3.color = DefaultGemColor;
+
+        RefreshQuestImages(_world.Quests[0], 
+            Q1RedGem1, Q1RedGem2, Q1RedGem3, 
+            Q1GreenGem1, Q1GreenGem2, Q1GreenGem3, 
+            Q1BlueGem1, Q1BlueGem2, Q1BlueGem3);
+    }
+    private void RefreshQuest2UI()
+    {
+        Q2RedGem1.color = DefaultGemColor;
+        Q2RedGem2.color = DefaultGemColor;
+        Q2RedGem3.color = DefaultGemColor;
+
+        Q2GreenGem1.color = DefaultGemColor;
+        Q2GreenGem2.color = DefaultGemColor;
+        Q2GreenGem3.color = DefaultGemColor;
+
+        Q2BlueGem1.color = DefaultGemColor;
+        Q2BlueGem2.color = DefaultGemColor;
+        Q2BlueGem3.color = DefaultGemColor;
+
+        RefreshQuestImages(_world.Quests[1],
+            Q2RedGem1, Q2RedGem2, Q2RedGem3,
+            Q2GreenGem1, Q2GreenGem2, Q2GreenGem3,
+            Q2BlueGem1, Q2BlueGem2, Q2BlueGem3);
+    }
+    private void RefreshQuest3UI()
+    {
+        Q3RedGem1.color = DefaultGemColor;
+        Q3RedGem2.color = DefaultGemColor;
+        Q3RedGem3.color = DefaultGemColor;
+
+        Q3GreenGem1.color = DefaultGemColor;
+        Q3GreenGem2.color = DefaultGemColor;
+        Q3GreenGem3.color = DefaultGemColor;
+
+        Q3BlueGem1.color = DefaultGemColor;
+        Q3BlueGem2.color = DefaultGemColor;
+        Q3BlueGem3.color = DefaultGemColor;
+
+        RefreshQuestImages(_world.Quests[2],
+            Q3RedGem1, Q3RedGem2, Q3RedGem3,
+            Q3GreenGem1, Q3GreenGem2, Q3GreenGem3,
+            Q3BlueGem1, Q3BlueGem2, Q3BlueGem3);
+    }
+    private void RefreshQuest4UI()
+    {
+        Q4RedGem1.color = DefaultGemColor;
+        Q4RedGem2.color = DefaultGemColor;
+        Q4RedGem3.color = DefaultGemColor;
+
+        Q4GreenGem1.color = DefaultGemColor;
+        Q4GreenGem2.color = DefaultGemColor;
+        Q4GreenGem3.color = DefaultGemColor;
+
+        Q4BlueGem1.color = DefaultGemColor;
+        Q4BlueGem2.color = DefaultGemColor;
+        Q4BlueGem3.color = DefaultGemColor;
+
+        RefreshQuestImages(_world.Quests[3],
+            Q4RedGem1, Q4RedGem2, Q4RedGem3,
+            Q4GreenGem1, Q4GreenGem2, Q4GreenGem3,
+            Q4BlueGem1, Q4BlueGem2, Q4BlueGem3);
+    }
+    private void RefreshQuest5UI()
+    {
+        Q5RedGem1.color = DefaultGemColor;
+        Q5RedGem2.color = DefaultGemColor;
+        Q5RedGem3.color = DefaultGemColor;
+
+        Q5GreenGem1.color = DefaultGemColor;
+        Q5GreenGem2.color = DefaultGemColor;
+        Q5GreenGem3.color = DefaultGemColor;
+
+        Q5BlueGem1.color = DefaultGemColor;
+        Q5BlueGem2.color = DefaultGemColor;
+        Q5BlueGem3.color = DefaultGemColor;
+
+        RefreshQuestImages(_world.Quests[4],
+            Q5RedGem1, Q5RedGem2, Q5RedGem3,
+            Q5GreenGem1, Q5GreenGem2, Q5GreenGem3,
+            Q5BlueGem1, Q5BlueGem2, Q5BlueGem3);
+    }
+
+    private void RefreshQuestImages(QuestItem quest, Image redGem1, Image redGem2, Image redGem3, Image greenGem1, Image greenGem2, Image greenGem3, Image blueGem1, Image blueGem2, Image blueGem3)
+    {
+        if (_currentPlayer == PlayerIndex.P1)
+        {
+            if (quest.RequiredRedResources == 1)
+            {
+                if (_world.P1Resources.NumberOfRedResources >= 1) redGem1.color = Color.white;
+            }
+            if (quest.RequiredRedResources == 2)
+            {
+                if (_world.P1Resources.NumberOfRedResources >= 1) redGem1.color = Color.white;
+                if (_world.P1Resources.NumberOfRedResources >= 2) redGem2.color = Color.white;
+            }
+            if (quest.RequiredRedResources == 3)
+            {
+                if (_world.P1Resources.NumberOfRedResources >= 1) redGem1.color = Color.white;
+                if (_world.P1Resources.NumberOfRedResources >= 2) redGem2.color = Color.white;
+                if (_world.P1Resources.NumberOfRedResources >= 3) redGem3.color = Color.white;
+            }
+
+            if (quest.RequiredGreenResources == 1)
+            {
+                if (_world.P1Resources.NumberOfGreenResources >= 1) greenGem1.color = Color.white;
+            }
+            if (quest.RequiredGreenResources == 2)
+            {
+                if (_world.P1Resources.NumberOfGreenResources >= 1) greenGem1.color = Color.white;
+                if (_world.P1Resources.NumberOfGreenResources >= 2) greenGem2.color = Color.white;
+            }
+            if (quest.RequiredGreenResources == 3)
+            {
+                if (_world.P1Resources.NumberOfGreenResources >= 1) greenGem1.color = Color.white;
+                if (_world.P1Resources.NumberOfGreenResources >= 2) greenGem2.color = Color.white;
+                if (_world.P1Resources.NumberOfGreenResources >= 3) greenGem3.color = Color.white;
+            }
+
+            if (quest.RequiredBlueResources == 1)
+            {
+                if (_world.P1Resources.NumberOfBlueResources >= 1) blueGem1.color = Color.white;
+            }
+            if (quest.RequiredBlueResources == 2)
+            {
+                if (_world.P1Resources.NumberOfBlueResources >= 1) blueGem1.color = Color.white;
+                if (_world.P1Resources.NumberOfBlueResources >= 2) blueGem2.color = Color.white;
+            }
+            if (quest.RequiredBlueResources == 3)
+            {
+                if (_world.P1Resources.NumberOfBlueResources >= 1) blueGem1.color = Color.white;
+                if (_world.P1Resources.NumberOfBlueResources >= 2) blueGem2.color = Color.white;
+                if (_world.P1Resources.NumberOfBlueResources >= 3) blueGem3.color = Color.white;
+            }
+        }
+        else
+        {
+            if (quest.RequiredRedResources == 1)
+            {
+                if (_world.P2Resources.NumberOfRedResources >= 1) redGem1.color = Color.white;
+            }
+            if (quest.RequiredRedResources == 2)
+            {
+                if (_world.P2Resources.NumberOfRedResources >= 1) redGem1.color = Color.white;
+                if (_world.P2Resources.NumberOfRedResources >= 2) redGem2.color = Color.white;
+            }
+            if (quest.RequiredRedResources == 3)
+            {
+                if (_world.P2Resources.NumberOfRedResources >= 1) redGem1.color = Color.white;
+                if (_world.P2Resources.NumberOfRedResources >= 2) redGem2.color = Color.white;
+                if (_world.P2Resources.NumberOfRedResources >= 3) redGem3.color = Color.white;
+            }
+
+            if (quest.RequiredGreenResources == 1)
+            {
+                if (_world.P2Resources.NumberOfGreenResources >= 1) greenGem1.color = Color.white;
+            }
+            if (quest.RequiredGreenResources == 2)
+            {
+                if (_world.P2Resources.NumberOfGreenResources >= 1) greenGem1.color = Color.white;
+                if (_world.P2Resources.NumberOfGreenResources >= 2) greenGem2.color = Color.white;
+            }
+            if (quest.RequiredGreenResources == 3)
+            {
+                if (_world.P2Resources.NumberOfGreenResources >= 1) greenGem1.color = Color.white;
+                if (_world.P2Resources.NumberOfGreenResources >= 2) greenGem2.color = Color.white;
+                if (_world.P2Resources.NumberOfGreenResources >= 3) greenGem3.color = Color.white;
+            }
+
+            if (quest.RequiredBlueResources == 1)
+            {
+                if (_world.P2Resources.NumberOfBlueResources >= 1) blueGem1.color = Color.white;
+            }
+            if (quest.RequiredBlueResources == 2)
+            {
+                if (_world.P2Resources.NumberOfBlueResources >= 1) blueGem1.color = Color.white;
+                if (_world.P2Resources.NumberOfBlueResources >= 2) blueGem2.color = Color.white;
+            }
+            if (quest.RequiredBlueResources == 3)
+            {
+                if (_world.P2Resources.NumberOfBlueResources >= 1) blueGem1.color = Color.white;
+                if (_world.P2Resources.NumberOfBlueResources >= 2) blueGem2.color = Color.white;
+                if (_world.P2Resources.NumberOfBlueResources >= 3) blueGem3.color = Color.white;
+            }
+        }
+    }
 }
