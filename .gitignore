@@ -68,6 +68,7 @@ sysinfo.txt
 !Assets/[Ee]ditor/**/*.meta
 !Assets/Editor Default Resources/**/*.meta
 !Assets/[Gg]izmos/**/*.meta
+!Assets/[Gg]ame Jam Template/**/*.meta
 !Assets/[Pp]refabs/**/*.meta
 !Assets/[Rr]esources/**/*.meta
 !Assets/[Ss]cenes/**/*.meta
