@@ -5,14 +5,16 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    private WorldCreator _worldCreator;
-    private World _world;
-
     public GameObject Player1;
     public GameObject Player2;
 
-    private ViewTile P1PositionTile;
-    private ViewTile P2PositionTile;
+    private WorldCreator _worldCreator;
+    private World _world;
+
+    private ViewTile _p1PositionTile;
+    private ViewTile _p2PositionTile;
+
+    private PlayerIndex _currentPlayer;
 
     void Awake()
     {
@@ -22,12 +24,14 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
+        Player1Turn();
+
         _worldCreator.GenerateWorld(_world);
 
-        P1PositionTile = _worldCreator.ViewTilesMultiArrayPlayerOne[0, 0];
-        P2PositionTile = _worldCreator.ViewTilesMultiArrayPlayerTwo[5,0];
-        Player1.transform.position = P1PositionTile.transform.position;
-        Player2.transform.position = P2PositionTile.transform.position;
+        _p1PositionTile = _worldCreator.ViewTilesMultiArrayPlayerOne[0, 0];
+        _p2PositionTile = _worldCreator.ViewTilesMultiArrayPlayerTwo[5, 0];
+        Player1.transform.position = _p1PositionTile.transform.position;
+        Player2.transform.position = _p2PositionTile.transform.position;
     }
 
     void Update()
@@ -38,7 +42,11 @@ public class GameController : MonoBehaviour
 
             if (hit.collider != null)
             {
-                MoveP1(hit.collider.gameObject.GetComponent<ViewTile>());
+                if (_currentPlayer == PlayerIndex.P1)
+                    MoveP1(hit.collider.gameObject.GetComponent<ViewTile>());
+                else
+                    MoveP2(hit.collider.gameObject.GetComponent<ViewTile>());
+
             }
         }
     }
@@ -144,7 +152,7 @@ public class GameController : MonoBehaviour
                 tile.ActivateTower();
                 _world.P1Resources.AddResource(tileP1.ResourceType, TileType.Mine);
                 _world.P1Action.UseAction(PlayerActionType.Build);
-                
+
                 break;
             case TileType.Field:
                 tileP1.BuildTower();
@@ -189,13 +197,13 @@ public class GameController : MonoBehaviour
     {
         if (!_world.P1Action.CanUseAction(PlayerActionType.Move)) return;
 
-        var movesOverX = Math.Abs(P1PositionTile.worldPosition.x - tile.worldPosition.x) == 1 && Math.Abs(P1PositionTile.worldPosition.y - tile.worldPosition.y) == 0;
-        var movesOverY = Math.Abs(P1PositionTile.worldPosition.x - tile.worldPosition.x) == 0 && Math.Abs(P1PositionTile.worldPosition.y - tile.worldPosition.y) == 1;
+        var movesOverX = Math.Abs(_p1PositionTile.worldPosition.x - tile.worldPosition.x) == 1 && Math.Abs(_p1PositionTile.worldPosition.y - tile.worldPosition.y) == 0;
+        var movesOverY = Math.Abs(_p1PositionTile.worldPosition.x - tile.worldPosition.x) == 0 && Math.Abs(_p1PositionTile.worldPosition.y - tile.worldPosition.y) == 1;
 
         if (movesOverX || movesOverY)
         {
             _world.P1Action.UseAction(PlayerActionType.Move);
-            P1PositionTile = tile;
+            _p1PositionTile = tile;
             Player1.transform.position = tile.transform.position;
         }
     }
@@ -204,14 +212,35 @@ public class GameController : MonoBehaviour
     {
         if (!_world.P2Action.CanUseAction(PlayerActionType.Move)) return;
 
-        var movesOverX = Math.Abs(P2PositionTile.worldPosition.x - tile.worldPosition.x) == 1 && Math.Abs(P2PositionTile.worldPosition.y - tile.worldPosition.y) == 0;
-        var movesOverY = Math.Abs(P2PositionTile.worldPosition.x - tile.worldPosition.x) == 0 && Math.Abs(P2PositionTile.worldPosition.y - tile.worldPosition.y) == 1;
+        var movesOverX = Math.Abs(_p2PositionTile.worldPosition.x - tile.worldPosition.x) == 1 && Math.Abs(_p2PositionTile.worldPosition.y - tile.worldPosition.y) == 0;
+        var movesOverY = Math.Abs(_p2PositionTile.worldPosition.x - tile.worldPosition.x) == 0 && Math.Abs(_p2PositionTile.worldPosition.y - tile.worldPosition.y) == 1;
 
         if (movesOverX || movesOverY)
         {
             _world.P2Action.UseAction(PlayerActionType.Move);
-            P2PositionTile = tile;
+            _p2PositionTile = tile;
             Player2.transform.position = tile.transform.position;
         }
+    }
+
+    public void Player1Turn()
+    {
+        Camera.main.transform.position = new Vector3(0, 0, -10);
+        _world.P1Action.NewTurn();
+        _currentPlayer = PlayerIndex.P1;
+    }
+
+    public void Player2Turn()
+    {
+        Camera.main.transform.position = new Vector3(20, 0, -10);
+        _world.P2Action.NewTurn();
+        _currentPlayer = PlayerIndex.P2;
+
+    }
+
+    public void ChangeTurn()
+    {
+        if (_currentPlayer == PlayerIndex.P1) Player2Turn();
+        else Player1Turn();
     }
 }
