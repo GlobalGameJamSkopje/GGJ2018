@@ -13,13 +13,14 @@ public class ViewTile : MonoBehaviour
     public SpriteRenderer belowCrystalSpriteRenderer;
     public SpriteRenderer aboveCrystalSpriteRenderer;
 
-    public GameObject TowerGameObject;
+    public SpriteRenderer TowerSpriteRenderer;
 
     private SpriteRenderer plainSpriteRenderer;
 
     void Awake()
     {
         plainSpriteRenderer = GetComponent<SpriteRenderer>();
+        TowerSpriteRenderer = gameObject.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>();
     }
 
     public void ChangePlainSprite(Sprite sprite)
@@ -61,11 +62,13 @@ public class ViewTile : MonoBehaviour
 
     public void ActivateTower()
     {
-        TowerGameObject.SetActive(true);
+
+        TowerSpriteRenderer.gameObject.SetActive(true);
+
     }
 
     public void DestroyTower()
     {
-        TowerGameObject.SetActive(false);
+        TowerSpriteRenderer.gameObject.SetActive(false);
     }
 }

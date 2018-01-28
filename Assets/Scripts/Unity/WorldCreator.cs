@@ -9,107 +9,88 @@ public class WorldCreator : MonoBehaviour
     public Sprite[] MountainSpritesP1;
     public Sprite[] MountainHolePlainSpritesP1;
     public Sprite[] HoleSpritesP1;
+    public Sprite[] TowerSpritesP1;
     public Sprite[] PlainSpritesP2;
     public Sprite[] MountainSpritesP2;
     public Sprite[] MountainHolePlainSpritesP2;
     public Sprite[] HoleSpritesP2;
+    public Sprite[] TowerSpritesP2;
     public Sprite red, green, blue;
     //public Sprite towerSprite;
 
     public ViewTile[] ViewTilesPlayerOne;
     public ViewTile[] ViewTilesPlayerTwo;
 
-    private ViewTile[,] _viewTilesMultiArrayPlayerOne = new ViewTile[6, 5];
-    private ViewTile[,] _viewTilesMultiArrayPlayerTwo = new ViewTile[6, 5];
+    public ViewTile[,] ViewTilesMultiArrayPlayerOne = new ViewTile[6, 5];
+    public ViewTile[,] ViewTilesMultiArrayPlayerTwo = new ViewTile[6, 5];
 
     [HideInInspector]
     public World World;
 
-    void Start()
+    public void GenerateWorld(World world)
     {
-        World = new World();
+        World = world;
 
         FillViewTilesMultiArray();
 
         GenerateMap();
     }
 
-    void GenerateMap()
+    public void MakeMineP1(ViewTile tile)
     {
-        for (int i = 0; i < World.Length; i++)
+        MakeMineP1((int)tile.worldPosition.x, (int)tile.worldPosition.y);
+    }
+    public void MakePlainP1(ViewTile tile)
+    {
+        MakePlainP1((int)tile.worldPosition.x, (int)tile.worldPosition.y);
+    }
+    public void MakeMountainP1(ViewTile tile)
+    {
+        MakeMountainP1((int)tile.worldPosition.x, (int)tile.worldPosition.y);
+    }
+
+    public void MakeTowerP1(ViewTile tile)
+    {
+        switch (World.P1Plain.Tiles[(int)tile.worldPosition.x, (int)tile.worldPosition.y].ResourceType)
         {
-            for (int j = 0; j < World.Width; j++)
-            {
-                GenerateMapP1(i, j);
-                GenerateMapP2(i, j);
-            }
+            case ResourceType.Red:
+                tile.TowerSpriteRenderer.sprite = TowerSpritesP1[0];
+                break;
+            case ResourceType.Green:
+                tile.TowerSpriteRenderer.sprite = TowerSpritesP1[1];
+                break;
+            case ResourceType.Blue:
+                tile.TowerSpriteRenderer.sprite = TowerSpritesP1[2];
+                break;
         }
     }
 
-    private void GenerateMapP1(int i, int j)
+    public void MakeMineP2(ViewTile tile)
     {
-        if (World.P1Plain.Tiles[i, j].ResourceType == ResourceType.Red)
-        {
-            _viewTilesMultiArrayPlayerOne[i, j].SetResourceType(red);
-        }
-        else if (World.P1Plain.Tiles[i, j].ResourceType == ResourceType.Green)
-        {
-            _viewTilesMultiArrayPlayerOne[i, j].SetResourceType(green);
-        }
-        else
-        {
-            _viewTilesMultiArrayPlayerOne[i, j].SetResourceType(blue);
-        }
-
-        _viewTilesMultiArrayPlayerOne[i, j]
-            .ChangePlainSprite(PlainSpritesP1[UnityEngine.Random.Range(0, PlainSpritesP1.Length)]);
-
-        if (World.P1Plain.Tiles[i, j].TileType == TileType.Mountain)
-        {
-            _viewTilesMultiArrayPlayerOne[i, j]
-                .ChangePlainSprite(MountainHolePlainSpritesP1[UnityEngine.Random.Range(0, MountainHolePlainSpritesP1.Length)]);
-            _viewTilesMultiArrayPlayerOne[i, j]
-                .ChangeMountainSprite(MountainSpritesP1[UnityEngine.Random.Range(0, MountainSpritesP1.Length)]);
-        }
-        else if (World.P1Plain.Tiles[i, j].TileType == TileType.Mine)
-        {
-            _viewTilesMultiArrayPlayerOne[i, j]
-                .ChangePlainSprite(MountainHolePlainSpritesP1[UnityEngine.Random.Range(0, MountainHolePlainSpritesP1.Length)]);
-            _viewTilesMultiArrayPlayerOne[i, j]
-                .ChangeHoleSprite(HoleSpritesP1[UnityEngine.Random.Range(0, HoleSpritesP1.Length)]);
-        }
+        MakeMineP2((int)tile.worldPosition.x, (int)tile.worldPosition.y);
     }
-    private void GenerateMapP2(int i, int j)
+    public void MakePlainP2(ViewTile tile)
     {
-        if (World.P2Plain.Tiles[i, j].ResourceType == ResourceType.Red)
-        {
-            _viewTilesMultiArrayPlayerTwo[i, j].SetResourceType(red);
-        }
-        else if (World.P2Plain.Tiles[i, j].ResourceType == ResourceType.Green)
-        {
-            _viewTilesMultiArrayPlayerTwo[i, j].SetResourceType(green);
-        }
-        else
-        {
-            _viewTilesMultiArrayPlayerTwo[i, j].SetResourceType(blue);
-        }
+        MakePlainP2((int)tile.worldPosition.x, (int)tile.worldPosition.y);
+    }
+    public void MakeMountainP2(ViewTile tile)
+    {
+        MakeMountainP2((int)tile.worldPosition.x, (int)tile.worldPosition.y);
+    }
 
-        _viewTilesMultiArrayPlayerTwo[i, j]
-            .ChangePlainSprite(PlainSpritesP2[UnityEngine.Random.Range(0, PlainSpritesP2.Length)]);
-
-        if (World.P2Plain.Tiles[i, j].TileType == TileType.Mountain)
+    public void MakeTowerP2(ViewTile tile)
+    {
+        switch (World.P2Plain.Tiles[(int)tile.worldPosition.x, (int)tile.worldPosition.y].ResourceType)
         {
-            _viewTilesMultiArrayPlayerTwo[i, j]
-                .ChangePlainSprite(MountainHolePlainSpritesP2[UnityEngine.Random.Range(0, MountainHolePlainSpritesP2.Length)]);
-            _viewTilesMultiArrayPlayerTwo[i, j]
-                .ChangeMountainSprite(MountainSpritesP2[UnityEngine.Random.Range(0, MountainSpritesP2.Length)]);
-        }
-        else if (World.P2Plain.Tiles[i, j].TileType == TileType.Mine)
-        {
-            _viewTilesMultiArrayPlayerTwo[i, j]
-                .ChangePlainSprite(MountainHolePlainSpritesP2[UnityEngine.Random.Range(0, MountainHolePlainSpritesP2.Length)]);
-            _viewTilesMultiArrayPlayerTwo[i, j]
-                .ChangeHoleSprite(HoleSpritesP2[UnityEngine.Random.Range(0, HoleSpritesP2.Length)]);
+            case ResourceType.Red:
+                tile.TowerSpriteRenderer.sprite = TowerSpritesP2[0];
+                break;
+            case ResourceType.Green:
+                tile.TowerSpriteRenderer.sprite = TowerSpritesP2[1];
+                break;
+            case ResourceType.Blue:
+                tile.TowerSpriteRenderer.sprite = TowerSpritesP2[2];
+                break;
         }
     }
 
@@ -123,7 +104,7 @@ public class WorldCreator : MonoBehaviour
                 {
                     if (viewTile.worldPosition.x == i && viewTile.worldPosition.y == j)
                     {
-                        _viewTilesMultiArrayPlayerOne[i, j] = viewTile;
+                        ViewTilesMultiArrayPlayerOne[i, j] = viewTile;
                         break;
                     }
 
@@ -132,7 +113,7 @@ public class WorldCreator : MonoBehaviour
                 {
                     if (viewTile.worldPosition.x == i && viewTile.worldPosition.y == j)
                     {
-                        _viewTilesMultiArrayPlayerTwo[i, j] = viewTile;
+                        ViewTilesMultiArrayPlayerTwo[i, j] = viewTile;
                         break;
                     }
 
@@ -140,5 +121,80 @@ public class WorldCreator : MonoBehaviour
             }
         }
 
+    }
+
+    private void GenerateMap()
+    {
+        for (int i = 0; i < World.Length; i++)
+        {
+            for (int j = 0; j < World.Width; j++)
+            {
+                GenerateMapP1(i, j);
+                GenerateMapP2(i, j);
+            }
+        }
+    }
+
+    private void MakeMineP1(int i, int j)
+    {
+        ViewTilesMultiArrayPlayerOne[i, j]
+            .ChangePlainSprite(MountainHolePlainSpritesP1[UnityEngine.Random.Range(0, MountainHolePlainSpritesP1.Length)]);
+        ViewTilesMultiArrayPlayerOne[i, j]
+            .ChangeHoleSprite(HoleSpritesP1[UnityEngine.Random.Range(0, HoleSpritesP1.Length)]);
+    }
+    private void MakePlainP1(int i, int j)
+    {
+        ViewTilesMultiArrayPlayerOne[i, j]
+            .ChangePlainSprite(PlainSpritesP1[UnityEngine.Random.Range(0, PlainSpritesP1.Length)]);
+    }
+    private void MakeMountainP1(int i, int j)
+    {
+        ViewTilesMultiArrayPlayerOne[i, j]
+            .ChangePlainSprite(MountainHolePlainSpritesP1[UnityEngine.Random.Range(0, MountainHolePlainSpritesP1.Length)]);
+        ViewTilesMultiArrayPlayerOne[i, j]
+            .ChangeMountainSprite(MountainSpritesP1[UnityEngine.Random.Range(0, MountainSpritesP1.Length)]);
+    }
+
+    private void MakeMineP2(int i, int j)
+    {
+        ViewTilesMultiArrayPlayerTwo[i, j]
+            .ChangePlainSprite(MountainHolePlainSpritesP2[UnityEngine.Random.Range(0, MountainHolePlainSpritesP2.Length)]);
+        ViewTilesMultiArrayPlayerTwo[i, j]
+            .ChangeHoleSprite(HoleSpritesP2[UnityEngine.Random.Range(0, HoleSpritesP2.Length)]);
+    }
+    private void MakePlainP2(int i, int j)
+    {
+        ViewTilesMultiArrayPlayerTwo[i, j]
+            .ChangePlainSprite(PlainSpritesP2[UnityEngine.Random.Range(0, PlainSpritesP2.Length)]);
+    }
+    private void MakeMountainP2(int i, int j)
+    {
+        ViewTilesMultiArrayPlayerTwo[i, j]
+            .ChangePlainSprite(MountainHolePlainSpritesP2[UnityEngine.Random.Range(0, MountainHolePlainSpritesP2.Length)]);
+        ViewTilesMultiArrayPlayerTwo[i, j]
+            .ChangeMountainSprite(MountainSpritesP2[UnityEngine.Random.Range(0, MountainSpritesP2.Length)]);
+    }
+
+    private void GenerateMapP1(int i, int j)
+    {
+        if (World.P1Plain.Tiles[i, j].ResourceType == ResourceType.Red) ViewTilesMultiArrayPlayerOne[i, j].SetResourceType(red);
+        else if (World.P1Plain.Tiles[i, j].ResourceType == ResourceType.Green) ViewTilesMultiArrayPlayerOne[i, j].SetResourceType(green);
+        else ViewTilesMultiArrayPlayerOne[i, j].SetResourceType(blue);
+
+        MakePlainP1(i, j);
+
+        if (World.P1Plain.Tiles[i, j].TileType == TileType.Mountain) MakeMountainP1(i, j);
+        else if (World.P1Plain.Tiles[i, j].TileType == TileType.Mine) MakeMineP1(i, j);
+    }
+    private void GenerateMapP2(int i, int j)
+    {
+        if (World.P2Plain.Tiles[i, j].ResourceType == ResourceType.Red) ViewTilesMultiArrayPlayerTwo[i, j].SetResourceType(red);
+        else if (World.P2Plain.Tiles[i, j].ResourceType == ResourceType.Green) ViewTilesMultiArrayPlayerTwo[i, j].SetResourceType(green);
+        else ViewTilesMultiArrayPlayerTwo[i, j].SetResourceType(blue);
+
+        MakePlainP2(i, j);
+
+        if (World.P2Plain.Tiles[i, j].TileType == TileType.Mountain) MakeMountainP2(i, j);
+        else if (World.P2Plain.Tiles[i, j].TileType == TileType.Mine) MakeMineP2(i, j);
     }
 }
