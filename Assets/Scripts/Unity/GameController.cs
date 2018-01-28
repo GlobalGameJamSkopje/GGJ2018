@@ -224,16 +224,18 @@ public class GameController : MonoBehaviour
             {
                 _world.P1Action.GetSideQuestReward(quest);
                 _world.P1SideQuest.CompleteQuest(quest);
+                FirstSideQuestHoldImage.gameObject.SetActive(false);
                 //TODO: refresh actions UI
             }
         }
         else
         {
             var quest = _world.P2SideQuest.SideQuests[0];
-            if (_questSolver.CanBeSolved(quest, _world.P1Resources))
+            if (_questSolver.CanBeSolved(quest, _world.P2Resources))
             {
                 _world.P2Action.GetSideQuestReward(quest);
                 _world.P2SideQuest.CompleteQuest(quest);
+                FirstSideQuestHoldImage.gameObject.SetActive(false);
                 //TODO: refresh actions UI
             }
         }
@@ -248,16 +250,18 @@ public class GameController : MonoBehaviour
             {
                 _world.P1Action.GetSideQuestReward(quest);
                 _world.P1SideQuest.CompleteQuest(quest);
+                SecondSideQuestHoldImage.gameObject.SetActive(false);
                 //TODO: refresh actions UI
             }
         }
         else
         {
             var quest = _world.P2SideQuest.SideQuests[1];
-            if (_questSolver.CanBeSolved(quest, _world.P1Resources))
+            if (_questSolver.CanBeSolved(quest, _world.P2Resources))
             {
                 _world.P2Action.GetSideQuestReward(quest);
                 _world.P2SideQuest.CompleteQuest(quest);
+                SecondSideQuestHoldImage.gameObject.SetActive(false);
                 //TODO: refresh actions UI
             }
         }
@@ -465,6 +469,9 @@ public class GameController : MonoBehaviour
 
     private void RefreshUIP1()
     {
+        FirstSideQuestHoldImage.gameObject.SetActive(true);
+        SecondSideQuestHoldImage.gameObject.SetActive(true);
+
         RedResourcesText.text = "x " + _world.P1Resources.NumberOfRedResources;
         GreenResourcesText.text = "x " + _world.P1Resources.NumberOfGreenResources;
         BlueResourcesText.text = "x " + _world.P1Resources.NumberOfBlueResources;
@@ -495,6 +502,9 @@ public class GameController : MonoBehaviour
 
     private void RefreshUIP2()
     {
+        FirstSideQuestHoldImage.gameObject.SetActive(true);
+        SecondSideQuestHoldImage.gameObject.SetActive(true);
+
         RedResourcesText.text = "x " + _world.P2Resources.NumberOfRedResources;
         GreenResourcesText.text = "x " + _world.P2Resources.NumberOfGreenResources;
         BlueResourcesText.text = "x " + _world.P2Resources.NumberOfBlueResources;
